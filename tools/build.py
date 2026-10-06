@@ -18,12 +18,19 @@ items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier"}
 
 
+GROUPS = [("ベビー・キッズ", ["チャイルドシート", "抱っこひも"]),
+          ("家電", ["加湿器", "ふとん乾燥機", "ドライヤー", "衣類スチーマー"])]
+for _c in CATS:
+    if not any(_c in g for _, g in GROUPS):
+        GROUPS[-1][1].append(_c)
+
+
 def cat_url(tag):
     return f"/category/{CATS.get(tag, 'other')}.html"
 
 
 def head(title, description, canonical, og_image=None, jsonld=None):
-    catnav = "".join(f'<a href="{cat_url(c)}">{c}</a>' for c in CATS)
+    catnav = "".join(f'<div class="grp"><p>{g}</p>' + "".join(f'<a href="{cat_url(c)}">{c}</a>' for c in cs) + '</div>' for g, cs in GROUPS)
     return f"""<!doctype html>
 <html lang="ja">
 <head>
@@ -49,9 +56,8 @@ def head(title, description, canonical, og_image=None, jsonld=None):
 <body>
 <header class="site-header"><div class="in">
   <a class="logo" href="/"><b>くらべて<i>えらぶ</i></b><small>{TAGLINE}</small></a>
-  <nav class="nav"><a href="/about.html">このサイトについて</a><a href="/privacy.html">プライバシーポリシー</a></nav>
+  <details class="catmenu"><summary>カテゴリー</summary><div class="catpanel"><a class="all" href="/">すべての記事</a>{catnav}</div></details>
 </div>
-<nav class="cats"><a href="/">すべて</a>{catnav}</nav>
 </header>
 <div class="wrap">
 """
@@ -60,6 +66,7 @@ def head(title, description, canonical, og_image=None, jsonld=None):
 FOOT = f"""
 </div>
 <footer class="site-footer">
+  <nav class="fcats">{"".join(f'<a href="/category/{v}.html">{k}</a>' for k, v in CATS.items())}</nav>
   <nav><a href="/">トップ</a><a href="/about.html">このサイトについて・運営者情報</a><a href="/privacy.html">プライバシーポリシー・免責事項</a></nav>
   <div>当サイトは楽天アフィリエイトを利用しています。記事内のリンクから商品が購入されると、運営者に紹介料が支払われることがあります。</div>
   <div>&copy; 2026 {SITE}</div>
@@ -253,27 +260,29 @@ def feature_and_cats(order):
     counts = {}
     for _, m in order:
         counts[m["tag"]] = counts.get(m["tag"], 0) + 1
-    tiles = "".join(f'<a href="{cat_url(c)}" data-filter="{CATS[c]}"><i>{ICONS.get(c, "")}</i>{c}<small>{counts.get(c, 0)}本</small></a>' for c in CATS)
-    return feat + f'<div class="catgrid">{tiles}</div>'
+    return feat
 
 
 FILTER_JS = """<script>
 (function(){
-  var tabs=document.querySelectorAll('.ftabs button');
+  var sel=document.getElementById('catsel');
   var items=document.querySelectorAll('#list li');
   function show(c){
-    tabs.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.cat===c ? 'true':'false');});
     items.forEach(function(li){li.hidden = !(c==='all' || li.dataset.cat===c);});
   }
-  tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.cat);});});
-  document.querySelectorAll('.catgrid a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();show(a.dataset.filter);document.getElementById('list').scrollIntoView({behavior:'smooth',block:'start'});});});
+  sel.addEventListener('change',function(){show(sel.value);});
+  show(sel.value);
 })();
 </script>"""
 
 
 def write_index_and_sitemap(order):
-    tabs = '<div class="ftabs" role="group" aria-label="カテゴリーで絞り込む"><button type="button" data-cat="all" aria-pressed="true">すべて</button>' + "".join(
-        f'<button type="button" data-cat="{CATS[c]}" aria-pressed="false">{c}</button>' for c in CATS) + "</div>"
+    counts = {}
+    for _, m in order:
+        counts[m["tag"]] = counts.get(m["tag"], 0) + 1
+    opts = "".join(f'<optgroup label="{g}">' + "".join(f'<option value="{CATS[c]}">{c}({counts.get(c, 0)}本)</option>' for c in cs) + '</optgroup>' for g, cs in GROUPS)
+    tabs = (f'<div class="ffilter"><label for="catsel">カテゴリーで絞り込む</label>'
+            f'<select id="catsel"><option value="all">すべて({len(order)}本)</option>{opts}</select></div>')
     cards = "\n".join(card_li(s_, m) for s_, m in order)
     body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
             f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、<strong>どれを選べばいいか</strong>を短くまとめています。数字には出典を付けています。</p>'
