@@ -36,6 +36,13 @@ def build128(d):
     )
 
 
+def thumb_url(d, size=240):
+    """表示用の商品画像。広告ブロッカーに消されにくいよう、楽天の画像サーバーのURLを直接使う。"""
+    from urllib.parse import urlparse, parse_qs
+    q = parse_qs(urlparse(d["img"]).query)
+    return q["pc"][0].replace("240x240", f"{size}x{size}")
+
+
 def card(d):
     """商品カード(楽天のアフィリエイトURLと画像をそのまま使い、表示だけ自前のデザインにする)。"""
     base = f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT}%3D%3D"
@@ -44,7 +51,7 @@ def card(d):
     import re as _re
     m = _re.match(r"価格：([\d,]+円)(.*)", d["price"])
     price = f'{m.group(1)}<span class="tax">{m.group(2)}</span>' if m else d["price"]
-    return (f'<div class="pcard"><a class="pimg" href="{base}" {a}><img src="{d["img"]}" alt="{d["short"]}" loading="lazy" width="240" height="240"></a>'
+    return (f'<div class="pcard"><a class="pimg" href="{base}" {a}><img src="{thumb_url(d)}" alt="{d["short"]}" loading="lazy" width="240" height="240"></a>'
             f'<div class="pbody"><p class="pname"><a href="{base}" {a}>{d["short"]}</a></p><ul class="chips">{chips}</ul>'
             f'<p class="pprice">{price}<small>楽天市場での価格{d["date"]}。最新の価格は販売ページで確認してください</small></p>'
             f'<a class="pbtn" href="{base}" {a}>楽天市場で見る</a></div></div>')

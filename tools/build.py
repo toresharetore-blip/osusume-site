@@ -6,7 +6,7 @@
 - トップページとサイトマップも作る。"""
 import json, pathlib, re, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from rlink import build128 as rlink, card
+from rlink import build128 as rlink, card, thumb_url
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "くらべてえらぶ"
@@ -164,7 +164,7 @@ def write_index_and_sitemap(built):
     order = sorted(built, key=lambda x: x[0] != "kashitsuki-denkidai")  # 総論の記事を先頭に
     def thumb(m):
         k = m.get("thumb")
-        return f'<img class="thumb" src="{items[k]["img"]}" alt="" loading="lazy" width="84" height="84">' if k else '<span class="thumb"></span>'
+        return f'<span class="thumb"><img src="{thumb_url(items[k], 128)}" alt="" loading="lazy" width="64" height="64"></span>' if k else '<span class="thumb"></span>'
     cards = "\n".join(
         f'  <li><a href="/{s}.html">{thumb(m)}<span class="txt"><span class="ttl">{m.get("short", m["title"])}</span><span class="meta2"><span class="tag">{m["tag"]}</span><span>{m["date"]}</span></span></span></a></li>'
         for s, m in order)
