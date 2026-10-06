@@ -15,7 +15,7 @@ BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
 
-CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer"}
+CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer"}
 
 
 def cat_url(tag):
@@ -241,7 +241,8 @@ def build_all():
 ICON_SVG = lambda d, c: f'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{d}</svg>'
 ICONS = {"加湿器": ICON_SVG('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>', "#2C7BD0"),
          "ふとん乾燥機": ICON_SVG('<path d="M3 18V8M21 18v-5a3 3 0 0 0-3-3H8v8M3 14h18"/><circle cx="6" cy="11" r="1.5"/>', "#DD7413"),
-         "ドライヤー": ICON_SVG('<path d="M4 8h10a4 4 0 0 1 0 8H4zM9 16l-2 5M17 9h4M17 12h3M17 15h4"/>', "#6A4FB0")}
+         "ドライヤー": ICON_SVG('<path d="M4 8h10a4 4 0 0 1 0 8H4zM9 16l-2 5M17 9h4M17 12h3M17 15h4"/>', "#6A4FB0"),
+         "衣類スチーマー": ICON_SVG('<path d="M4 15c0-4 3-7 8-7h6a2 2 0 0 1 2 2v5zM4 15h16M8 5c0-1 1-1 1-2M12 5c0-1 1-1 1-2"/>', "#1F8A70")}
 
 
 def feature_and_cats(order):
