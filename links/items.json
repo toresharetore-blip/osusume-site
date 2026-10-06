@@ -178,5 +178,35 @@
 "1.6㎥/分",
 "約550g"
 ]
+},
+"EH-NA9M": {
+"id": "5844804d.1f5c0ff2.5844804e.f8370a93",
+"pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fmasayosiryouhin%2Feh-na9m%2F",
+"img": "https://hbb.afl.rakuten.co.jp/hgb/5844804d.1f5c0ff2.5844804e.f8370a93/?me_id=1383237&item_id=10004754&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fmasayosiryouhin%2Fcabinet%2F13474261%2Feh-na9m_1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+"name": "パナソニック ドライヤー ナノケア ノーブルグレー EH-NA9M-H ノーブルベージュ EH-NA9M-E",
+"price": "価格：26,380円（税込、送料無料)",
+"date": "(2026/10/6時点)",
+"short": "パナソニック ナノケア EH-NA9M",
+"chips": [
+"スタンダード",
+"TURBO 1.5㎥/分",
+"約580g",
+"集中ノズル"
+]
+},
+"EH-NA0K-2": {
+"id": "5844804d.1f5c0ff2.5844804e.f8370a93",
+"pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fmasayosiryouhin%2Fdj-eh-na0j-w%2F",
+"img": "https://hbb.afl.rakuten.co.jp/hgb/5844804d.1f5c0ff2.5844804e.f8370a93/?me_id=1383237&item_id=10002765&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fmasayosiryouhin%2Fcabinet%2F12326613%2Fdj-eh-na0j-w_1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+"name": "パナソニック ドライヤー ナノケア EH-NA0K",
+"price": "価格：31,680円～（税込、送料無料)",
+"date": "(2026/10/6時点)",
+"short": "パナソニック ナノケア EH-NA0K",
+"chips": [
+"上位モデル",
+"1.6㎥/分",
+"約550g",
+"ノズル3種"
+]
 }
 }
