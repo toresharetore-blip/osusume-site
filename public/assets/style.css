@@ -302,3 +302,41 @@ article table tr:first-child th{background:var(--navy);border-color:var(--navy)}
 .pcard .pimg{grid-area:img;display:block;align-self:start;background:#F6F7F6;border-radius:8px;min-height:110px}
 .pcard .pbody{grid-area:body}
 .pcard .pimg img{object-fit:contain}
+
+/* ===== 物寂しさ対策(10/6 第5版):アイキャッチ・写真入り表・カテゴリー・番号つき見出し ===== */
+.eye{position:relative;border-radius:14px;overflow:hidden;margin:4px 0 18px;padding:18px 16px 16px;color:#fff;
+  background:radial-gradient(120% 140% at 100% 0%,#3D7FD0 0%,#22406A 55%,#172C4C 100%)}
+.eye::after{content:"";position:absolute;right:-40px;bottom:-60px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07)}
+.eye .k{font-size:11.5px;letter-spacing:.12em;color:#BFD6F2;font-weight:700}
+.eye .big{font-size:clamp(40px,12vw,56px);font-weight:800;line-height:1.1;margin:4px 0 2px;letter-spacing:.02em}
+.eye .big small{font-size:.38em;margin-left:4px;color:#DCE8F7}
+.eye .lb{font-size:13.5px;line-height:1.6;color:#E6EEF8;margin:0 0 12px;max-width:26em}
+.eye .imgs{display:flex;gap:10px;position:relative;z-index:1}
+.eye .imgs span{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#fff}
+.eye .imgs img{width:72px;height:72px;border-radius:12px;background:#fff;object-fit:contain;padding:4px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.eye .vs{align-self:center;font-weight:800;font-size:14px;color:#FFD38A;margin-top:-16px}
+
+/* 比較表の見出しに商品写真 */
+article table th img.th-img{display:block;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:6px;margin:0 0 4px}
+
+/* 番号つき見出し */
+article{counter-reset:sec}
+article h2{counter-increment:sec;display:flex;gap:10px;align-items:baseline}
+article h2::before{content:counter(sec,decimal-leading-zero);font-size:13px;font-weight:800;color:#fff;background:var(--navy);border-radius:5px;padding:1px 7px;flex:none;position:relative;top:-2px}
+
+/* トップ:注目記事とカテゴリー */
+.feature{display:block;text-decoration:none;color:#fff;margin:0 0 14px}
+.feature .eye{margin:0}
+.feature .eye .t{font-size:16px;font-weight:800;line-height:1.5;margin:6px 0 10px;color:#fff}
+.catgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}
+.catgrid a{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 4px;font-size:12.5px;font-weight:700;color:var(--ink)}
+.catgrid a i{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:19px}
+.catgrid a:nth-child(1) i{background:var(--blue-soft)}
+.catgrid a:nth-child(2) i{background:var(--orange-soft)}
+.catgrid a:nth-child(3) i{background:#F3EFFB}
+.catgrid small{font-weight:400;color:var(--ink3);font-size:10.5px}
+
+/* フッター帯 */
+.site-footer{max-width:none;background:var(--navy);color:#C9D6E8;margin-top:24px;padding:22px 16px 40px}
+.site-footer>*{max-width:780px;margin-left:auto;margin-right:auto;width:100%}
+.site-footer a{color:#fff}

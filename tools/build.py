@@ -35,7 +35,7 @@ def head(title, description, canonical):
   <a class="logo" href="/"><b>くらべて<i>えらぶ</i></b><small>{TAGLINE}</small></a>
   <nav class="nav"><a href="/about.html">このサイトについて</a><a href="/privacy.html">プライバシーポリシー</a></nav>
 </div>
-<nav class="cats"><a href="/">新着記事</a><a href="/#kashitsuki">加湿器</a></nav>
+<nav class="cats"><a href="/">新着記事</a><a href="/#kashitsuki">加湿器</a><a href="/rf-fb20-rf-ua10-chigai.html">ふとん乾燥機</a><a href="/eh-na0k-eh-na0j-chigai.html">ドライヤー</a></nav>
 </header>
 <div class="wrap">
 """
@@ -111,11 +111,38 @@ def link(m):
     return f'<div class="product"><div class="table-wrap">{code}</div></div>'
 
 
+def eye(meta, link_title=None):
+    e = meta.get("eye")
+    if not e:
+        return ""
+    imgs = []
+    for i, k in enumerate(e.get("items", [])):
+        if i:
+            imgs.append('<span class="vs">VS</span>' if e.get("vs", True) else "")
+        imgs.append(f'<span><img src="{thumb_url(items[k], 128)}" alt="" width="72" height="72">{e.get("names", {}).get(k, k)}</span>')
+    t = f'<p class="t">{link_title}</p>' if link_title else ""
+    return (f'<div class="eye"><div class="k">{e.get("kicker", meta["tag"])}</div>{t}'
+            f'<div class="big">{e["big"]}</div><p class="lb">{e["label"]}</p>'
+            f'<div class="imgs">{"".join(imgs)}</div></div>')
+
+
+def th_images(body):
+    """比較表の見出しセルに型番があれば、その商品写真を添える"""
+    def f(m):
+        cell = m.group(1)
+        for k in items:
+            if k in cell and "th-img" not in cell:
+                return f'<th><img class="th-img" src="{thumb_url(items[k], 128)}" alt="" width="44" height="44">{cell}</th>'
+        return m.group(0)
+    return re.sub(r"<th>(.*?)</th>", f, body)
+
+
 def article(slug, meta, body):
     body = re.sub(r"\{\{CARD:([^}]+)\}\}", cardsub, body)
     body = re.sub(r"\{\{BARS:([^}]+)\}\}", bars, body)
     body = re.sub(r"\{\{VERDICT:([^}]+)\}\}", verdict, body)
     body = diffcount(body)
+    body = th_images(body)
     body = re.sub(r"\{\{LINK:([^}]+)\}\}", link, body)
     assert "{{" not in body, slug
     body = re.sub(r'<p class="lead">(.*?)</p>', r'<div class="answer"><p>\1</p></div>', body, count=1, flags=re.S)
@@ -139,7 +166,7 @@ def article(slug, meta, body):
     top = (f'<article>\n<p class="crumb"><a href="/">トップ</a> ＞ {meta["tag"]}</p>\n'
            f'<p class="pr-note">PR 広告(楽天アフィリエイト)のリンクを含みます</p>\n'
            f'<h1>{meta["title"]}</h1>\n<p class="meta">公開・価格確認:{meta["date"]}</p>\n'
-           f'<div class="badges"><span>メーカー・販売店の公表値で比較</span><span>出典つき</span></div>\n')
+           f'<div class="badges"><span>メーカー・販売店の公表値で比較</span><span>出典つき</span></div>\n' + eye(meta))
     writer = ('<div class="writer"><p><b>くらべてえらぶ編集部</b><br>メーカーと販売店が公表している仕様・価格を同じ基準で表にまとめています。'
               '数値には出典を付け、実際に使って試していない商品はその旨を明記しています。'
               '<a href="/about.html">運営方針を見る</a></p></div>')
@@ -160,6 +187,20 @@ def build_all():
     return out
 
 
+def feature_and_cats(order):
+    top = next((x for x in order if x[1].get("eye")), None)
+    feat = f'<a class="feature" href="/{top[0]}.html">{eye(top[1], top[1].get("short", top[1]["title"]))}</a>' if top else ""
+    cats = {}
+    for s_, m in order:
+        cats[m["tag"]] = cats.get(m["tag"], 0) + 1
+    svg = lambda d, c: f'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{d}</svg>'
+    icons = {"加湿器": svg('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>', "#2C7BD0"),
+             "ふとん乾燥機": svg('<path d="M3 18V8M21 18v-5a3 3 0 0 0-3-3H8v8M3 14h18"/><circle cx="6" cy="11" r="1.5"/>', "#DD7413"),
+             "ドライヤー": svg('<path d="M4 8h10a4 4 0 0 1 0 8H4zM9 16l-2 5M17 9h4M17 12h3M17 15h4"/>', "#6A4FB0")}
+    tiles = "".join(f'<a href="/#kashitsuki"><i>{icons.get(c, "")}</i>{c}<small>{n}本</small></a>' for c, n in list(cats.items())[:3])
+    return feat + f'<div class="catgrid">{tiles}</div>'
+
+
 def write_index_and_sitemap(built):
     order = sorted(built, key=lambda x: x[0] != "kashitsuki-denkidai")  # 総論の記事を先頭に
     def thumb(m):
@@ -171,6 +212,7 @@ def write_index_and_sitemap(built):
     body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
             f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、<strong>どれを選べばいいか</strong>を短くまとめています。数字には出典を付けています。</p>'
             f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
+            + feature_and_cats(order) +
             f'<h2 class="sec-title" id="kashitsuki">新着記事</h2>\n<ul class="cards">\n{cards}\n</ul>')
     (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "買う前に、メーカー公表の仕様と価格を同じ表に並べて比べる商品比較サイトです。", "") + body + FOOT, encoding="utf-8")
     urls = [""] + [f"{s}.html" for s, _ in order] + ["about.html", "privacy.html"]

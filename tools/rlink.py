@@ -25,7 +25,8 @@ UT128 = "eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJwaWN0dGV4dCIsInNpemUiOiIxMjh4MTI4IiwibmF
 def build128(d):
     """スマホ幅に収まる「画像とテキスト(128x128)」版。リンク作成画面でサイズ128を選んだ時と同じ形。"""
     base = f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT128}%3D%3D"
-    img = d["img"].replace("240x240", "128x128")
+    import re as _re
+    img = _re.sub(r"\d+x\d+", "128x128", d["img"])
     a = 'target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"'
     return (
         '<table border="0" cellpadding="0" cellspacing="0"><tr><td><div style="border:1px solid #95a5a6;border-radius:.75rem;background-color:#FFFFFF;width:280px;margin:0px;padding:5px;text-align:center;overflow:hidden;"><table><tr><td style="width:128px">'
@@ -40,7 +41,8 @@ def thumb_url(d, size=240):
     """表示用の商品画像。広告ブロッカーに消されにくいよう、楽天の画像サーバーのURLを直接使う。"""
     from urllib.parse import urlparse, parse_qs
     q = parse_qs(urlparse(d["img"]).query)
-    return q["pc"][0].replace("240x240", f"{size}x{size}")
+    import re as _re
+    return _re.sub(r"_ex=\d+x\d+", f"_ex={size}x{size}", q["pc"][0])
 
 
 def card(d):
