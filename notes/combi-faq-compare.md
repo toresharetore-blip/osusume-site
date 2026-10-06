@@ -12,3 +12,6 @@ Priority next:
 - 37624 ネムリラコードレス ; 37118 ネムリラ手動
 Store-limited base models: 37355, 37171, 37169, 37707, 34230, 37411
 Rate notes: babuuu 5%, コンビ公式楽天市場店 10%, most others 4%. 1 item cap 1,000円.
+Done 10/7: 37746, 37663, 37676, 37699 (auto N second QC/BQ), 37459 (auto N first NC/BN), 35556 (Acbee MA/AO)
+Demand signals (Rakuten reviews): auto N second official 480, Acbee plus MA babuuu 396, スゴカルα4キャス compact HT ORANGE 268, Ergo OMNI Deluxe NaturalBaby 4,475
+Next: スゴカルα 4キャス compact HT (31055/29585), スゴカル LA, THE S Go DR/DQ (37721), ネムリラ
