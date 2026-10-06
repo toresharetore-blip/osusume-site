@@ -1,0 +1,35 @@
+:root{
+  --bg:#FAFAF7; --card:#FFFFFF; --ink:#1D2320; --ink2:#5A635E; --ink3:#8C948F;
+  --line:#E2E5E1; --accent:#1F6B5C; --accent-bg:#E8F2EF; --pr:#8A5A00; --pr-bg:#FFF4DE;
+  --f-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#141816; --card:#1B201D; --ink:#E6EBE8; --ink2:#A4AEA8; --ink3:#727C76;
+  --line:#2B322E; --accent:#6CC3AE; --accent-bg:#1C2B27; --pr:#F2C26B; --pr-bg:#2C2414; color-scheme:dark}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;padding-inline:16px}
+a{color:var(--accent);text-underline-offset:3px}
+.site-header,.site-footer,main{max-width:760px;margin:0 auto}
+.site-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:18px;border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:18px;color:var(--ink);text-decoration:none;letter-spacing:.02em}
+.nav{display:flex;gap:16px;font-size:13px}
+.nav a{color:var(--ink2);text-decoration:none}
+main{padding-block:28px 56px;display:flex;flex-direction:column;gap:24px}
+h1{font-size:clamp(22px,4.5vw,28px);line-height:1.4;margin:0;text-wrap:balance}
+h2{font-size:20px;line-height:1.5;margin:32px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+h3{font-size:17px;margin:24px 0 6px}
+p{margin:0 0 14px}
+.pr-note{background:var(--pr-bg);color:var(--pr);border-radius:6px;padding:8px 12px;font-size:13px;margin:0}
+.meta{color:var(--ink3);font-size:13px}
+.lead{color:var(--ink2)}
+.cards{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.cards a{display:block;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+.cards a span{display:block;color:var(--ink3);font-size:13px}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;white-space:nowrap}
+th{color:var(--ink2);font-weight:700;background:var(--accent-bg)}
+.site-footer{border-top:1px solid var(--line);padding-block:20px 40px;font-size:13px;color:var(--ink3);display:flex;flex-direction:column;gap:6px}
+.site-footer nav{display:flex;gap:14px;flex-wrap:wrap}
+.site-footer a{color:var(--ink2)}
