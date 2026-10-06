@@ -89,7 +89,7 @@ def bars(m):
     out = [f'<div class="chart"><p class="ct">{title}</p><p class="cs">{sub}</p>']
     for lab, v, flag in data:
         w = v / mx * 100
-        txt = f"{v:,.0f}{unit}" if v >= 10 else f"{v:g}{unit}"
+        txt = (f"{v:,.0f}{unit}" if v >= 1000 or v == int(v) else f"{v:g}{unit}")
         cls = "val out" if w > 55 else "val"
         style = f"left:calc({max(w,1):.1f}% + 6px)" if w <= 55 else ""
         out.append(f'<div class="row {flag}"><span class="lab">{lab}</span><span class="track"><span class="fill" style="--w:{w:.1f}"></span>'
