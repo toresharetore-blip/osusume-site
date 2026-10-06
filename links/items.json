@@ -523,5 +523,35 @@
    "22kgまで",
    "定価より約2万円安い"
   ]
+ },
+ "ACBEE-PLUS-MA": {
+  "id": "58450508.a0d41713.58450509.ecd73ca1",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabuuu%2Fbgoods-00027%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58450508.a0d41713.58450509.ecd73ca1/?me_id=1422856&item_id=10000008&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabuuu%2Fcabinet%2F1004kd%2Fdefault%2Fs1%2F4972990193689_s1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ Acbee plus MA",
+  "price": "価格：22,780円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ Acbee plus MA(2024年モデル)",
+  "chips": [
+   "3.8kg",
+   "7か月〜4才頃",
+   "18kgまで",
+   "シート5cm長い"
+  ]
+ },
+ "ACBEE-PLUS-AO": {
+  "id": "5846c80f.ccba5558.5846c810.d7f6889a",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fnetbaby%2F405174%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c80f.ccba5558.5846c810.d7f6889a/?me_id=1212232&item_id=10042255&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fnetbaby%2Fcabinet%2F174%2F405174.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ Acbee plus AO",
+  "price": "価格：22,000円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ Acbee plus AO(2023年モデル)",
+  "chips": [
+   "3.7kg",
+   "7か月〜3才頃",
+   "15kgまで",
+   "旧型"
+  ]
  }
 }
