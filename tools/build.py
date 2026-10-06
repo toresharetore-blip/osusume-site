@@ -247,7 +247,7 @@ ICONS = {"加湿器": ICON_SVG('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6
 
 
 def feature_and_cats(order):
-    top = next((x for x in order if x[1].get("eye")), None)
+    top = next((x for x in order if x[1].get("feature")), None) or next((x for x in order if x[1].get("eye")), None)
     feat = f'<a class="feature" href="/{top[0]}.html">{eye(top[1], top[1].get("short", top[1]["title"]))}</a>' if top else ""
     counts = {}
     for _, m in order:
