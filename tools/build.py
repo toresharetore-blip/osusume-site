@@ -15,7 +15,15 @@ BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
 
-def head(title, description, canonical):
+CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer"}
+
+
+def cat_url(tag):
+    return f"/category/{CATS.get(tag, 'other')}.html"
+
+
+def head(title, description, canonical, og_image=None, jsonld=None):
+    catnav = "".join(f'<a href="{cat_url(c)}">{c}</a>' for c in CATS)
     return f"""<!doctype html>
 <html lang="ja">
 <head>
@@ -25,6 +33,14 @@ def head(title, description, canonical):
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{BASE}/{canonical}">
+<meta property="og:type" content="{"article" if og_image else "website"}">
+<meta property="og:site_name" content="{SITE}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{BASE}/{canonical}">
+{f'<meta property="og:image" content="{og_image}">' if og_image else ""}
+<meta name="twitter:card" content="summary">
+{f'<script type="application/ld+json">{jsonld}</script>' if jsonld else ""}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;800&display=swap">
@@ -35,7 +51,7 @@ def head(title, description, canonical):
   <a class="logo" href="/"><b>くらべて<i>えらぶ</i></b><small>{TAGLINE}</small></a>
   <nav class="nav"><a href="/about.html">このサイトについて</a><a href="/privacy.html">プライバシーポリシー</a></nav>
 </div>
-<nav class="cats"><a href="/">新着記事</a><a href="/#kashitsuki">加湿器</a><a href="/rf-fb20-rf-ua10-chigai.html">ふとん乾燥機</a><a href="/eh-na0k-eh-na0j-chigai.html">ドライヤー</a></nav>
+<nav class="cats"><a href="/">すべて</a>{catnav}</nav>
 </header>
 <div class="wrap">
 """
@@ -137,7 +153,17 @@ def th_images(body):
     return re.sub(r"<th>(.*?)</th>", f, body)
 
 
-def article(slug, meta, body):
+def thumb_html(m, size=64):
+    k = m.get("thumb")
+    return f'<span class="thumb"><img src="{thumb_url(items[k], 128)}" alt="" loading="lazy" width="{size}" height="{size}"></span>' if k else '<span class="thumb"></span>'
+
+
+def card_li(s_, m):
+    return (f'  <li data-cat="{CATS.get(m["tag"], "other")}"><a href="/{s_}.html">{thumb_html(m)}<span class="txt"><span class="ttl">{m.get("short", m["title"])}</span>'
+            f'<span class="meta2"><span class="tag">{m["tag"]}</span><span>{m["date"]}</span></span></span></a></li>')
+
+
+def article(slug, meta, body, all_meta):
     body = re.sub(r"\{\{CARD:([^}]+)\}\}", cardsub, body)
     body = re.sub(r"\{\{BARS:([^}]+)\}\}", bars, body)
     body = re.sub(r"\{\{VERDICT:([^}]+)\}\}", verdict, body)
@@ -146,10 +172,10 @@ def article(slug, meta, body):
     body = re.sub(r"\{\{LINK:([^}]+)\}\}", link, body)
     assert "{{" not in body, slug
     body = re.sub(r'<p class="lead">(.*?)</p>', r'<div class="answer"><p>\1</p></div>', body, count=1, flags=re.S)
+
     def hint(m):
         first_row = re.search(r"<tr>(.*?)</tr>", m.group(0), re.S).group(1)
-        cols = first_row.count("<th")
-        if cols >= 4:
+        if first_row.count("<th") >= 4:
             return '<p class="scroll-hint">表は横にスクロールできます →</p>' + m.group(0).replace("<table>", '<table class="wide">', 1)
         return m.group(0)
     body = re.sub(r'<div class="table-wrap"><table>.*?</table></div>', hint, body, flags=re.S)
@@ -161,61 +187,107 @@ def article(slug, meta, body):
         return f'<h2 id="s{n}">{m.group(1)}</h2>'
     body = re.sub(r"<h2>(.*?)</h2>", add_id, body)
     toc = '<nav class="toc"><b>目次</b><ol>' + "".join(f'<li><a href="#s{i+1}">{h}</a></li>' for i, h in enumerate(heads)) + "</ol></nav>"
-    # 目次は結論枠と最初の説明段落のあと、最初の h2 の直前に置く
     body = body.replace('<h2 id="s1">', toc + '\n<h2 id="s1">', 1)
-    top = (f'<article>\n<p class="crumb"><a href="/">トップ</a> ＞ {meta["tag"]}</p>\n'
+    top = (f'<article>\n<p class="crumb"><a href="/">トップ</a> ＞ <a href="{cat_url(meta["tag"])}">{meta["tag"]}</a></p>\n'
            f'<p class="pr-note">PR 広告(楽天アフィリエイト)のリンクを含みます</p>\n'
            f'<h1>{meta["title"]}</h1>\n<p class="meta">公開・価格確認:{meta["date"]}</p>\n'
            f'<div class="badges"><span>メーカー・販売店の公表値で比較</span><span>出典つき</span></div>\n' + eye(meta))
     writer = ('<div class="writer"><p><b>くらべてえらぶ編集部</b><br>メーカーと販売店が公表している仕様・価格を同じ基準で表にまとめています。'
               '数値には出典を付け、実際に使って試していない商品はその旨を明記しています。'
               '<a href="/about.html">運営方針を見る</a></p></div>')
-    return head(f'{meta["title"]} | {SITE}', meta["description"], f"{slug}.html") + top + body + writer + "\n</article>" + FOOT
+    # 関連記事(同じカテゴリーを優先、足りなければ他から)
+    same = [(s_, m) for s_, m in all_meta if s_ != slug and m["tag"] == meta["tag"]]
+    other = [(s_, m) for s_, m in all_meta if s_ != slug and m["tag"] != meta["tag"]]
+    rel = (same + other)[:4]
+    related = ('<section class="related"><h2 class="sec-title">あわせて読みたい</h2><ul class="cards">' +
+               "".join(card_li(s_, m) for s_, m in rel) + "</ul></section>") if rel else ""
+    og = thumb_url(items[meta["thumb"]], 240) if meta.get("thumb") else None
+    jsonld = json.dumps({
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "Article", "headline": meta["title"], "description": meta["description"],
+             "datePublished": "2026-10-06", "dateModified": "2026-10-06",
+             "author": {"@type": "Organization", "name": SITE + "編集部", "url": BASE + "/about.html"},
+             "publisher": {"@type": "Organization", "name": SITE}, "image": og, "mainEntityOfPage": f"{BASE}/{slug}.html"},
+            {"@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "トップ", "item": BASE + "/"},
+                {"@type": "ListItem", "position": 2, "name": meta["tag"], "item": BASE + cat_url(meta["tag"])},
+                {"@type": "ListItem", "position": 3, "name": meta.get("short", meta["title"])}]}]}, ensure_ascii=False)
+    return (head(f'{meta["title"]} | {SITE}', meta["description"], f"{slug}.html", og, jsonld)
+            + top + body + writer + "\n</article>" + related + FOOT)
 
 
-def build_all():
+def load_all():
     out = []
     for f in sorted((ROOT / "content").glob("*.html")):
         first, body = f.read_text(encoding="utf-8").split("\n", 1)
-        meta = json.loads(first)
-        (ROOT / "public" / f"{f.stem}.html").write_text(article(f.stem, meta, body), encoding="utf-8")
-        out.append((f.stem, meta))
+        out.append((f.stem, json.loads(first), body))
+    return out
+
+
+def build_all():
+    loaded = load_all()
+    order = sorted([(s_, m) for s_, m, _ in loaded], key=lambda x: (x[0] != "kashitsuki-denkidai", x[1].get("order", 50), x[0]))
+    for s_, m, body in loaded:
+        (ROOT / "public" / f"{s_}.html").write_text(article(s_, m, body, order), encoding="utf-8")
     for f in sorted((ROOT / "pages").glob("*.html")):
         title, body = f.read_text(encoding="utf-8").split("\n", 1)
         html = head(title, f"{SITE}の{re.sub(' [|].*', '', title)}です。", f"{f.stem}.html") + f'<div class="panel">\n{body}\n</div>' + FOOT
         (ROOT / "public" / f"{f.stem}.html").write_text(html, encoding="utf-8")
-    return out
+    return order
+
+
+ICON_SVG = lambda d, c: f'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{d}</svg>'
+ICONS = {"加湿器": ICON_SVG('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>', "#2C7BD0"),
+         "ふとん乾燥機": ICON_SVG('<path d="M3 18V8M21 18v-5a3 3 0 0 0-3-3H8v8M3 14h18"/><circle cx="6" cy="11" r="1.5"/>', "#DD7413"),
+         "ドライヤー": ICON_SVG('<path d="M4 8h10a4 4 0 0 1 0 8H4zM9 16l-2 5M17 9h4M17 12h3M17 15h4"/>', "#6A4FB0")}
 
 
 def feature_and_cats(order):
     top = next((x for x in order if x[1].get("eye")), None)
     feat = f'<a class="feature" href="/{top[0]}.html">{eye(top[1], top[1].get("short", top[1]["title"]))}</a>' if top else ""
-    cats = {}
-    for s_, m in order:
-        cats[m["tag"]] = cats.get(m["tag"], 0) + 1
-    svg = lambda d, c: f'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{d}</svg>'
-    icons = {"加湿器": svg('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>', "#2C7BD0"),
-             "ふとん乾燥機": svg('<path d="M3 18V8M21 18v-5a3 3 0 0 0-3-3H8v8M3 14h18"/><circle cx="6" cy="11" r="1.5"/>', "#DD7413"),
-             "ドライヤー": svg('<path d="M4 8h10a4 4 0 0 1 0 8H4zM9 16l-2 5M17 9h4M17 12h3M17 15h4"/>', "#6A4FB0")}
-    tiles = "".join(f'<a href="/#kashitsuki"><i>{icons.get(c, "")}</i>{c}<small>{n}本</small></a>' for c, n in list(cats.items())[:3])
+    counts = {}
+    for _, m in order:
+        counts[m["tag"]] = counts.get(m["tag"], 0) + 1
+    tiles = "".join(f'<a href="{cat_url(c)}" data-filter="{CATS[c]}"><i>{ICONS.get(c, "")}</i>{c}<small>{counts.get(c, 0)}本</small></a>' for c in CATS)
     return feat + f'<div class="catgrid">{tiles}</div>'
 
 
-def write_index_and_sitemap(built):
-    order = sorted(built, key=lambda x: x[0] != "kashitsuki-denkidai")  # 総論の記事を先頭に
-    def thumb(m):
-        k = m.get("thumb")
-        return f'<span class="thumb"><img src="{thumb_url(items[k], 128)}" alt="" loading="lazy" width="64" height="64"></span>' if k else '<span class="thumb"></span>'
-    cards = "\n".join(
-        f'  <li><a href="/{s}.html">{thumb(m)}<span class="txt"><span class="ttl">{m.get("short", m["title"])}</span><span class="meta2"><span class="tag">{m["tag"]}</span><span>{m["date"]}</span></span></span></a></li>'
-        for s, m in order)
+FILTER_JS = """<script>
+(function(){
+  var tabs=document.querySelectorAll('.ftabs button');
+  var items=document.querySelectorAll('#list li');
+  function show(c){
+    tabs.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.cat===c ? 'true':'false');});
+    items.forEach(function(li){li.hidden = !(c==='all' || li.dataset.cat===c);});
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.cat);});});
+  document.querySelectorAll('.catgrid a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();show(a.dataset.filter);document.getElementById('list').scrollIntoView({behavior:'smooth',block:'start'});});});
+})();
+</script>"""
+
+
+def write_index_and_sitemap(order):
+    tabs = '<div class="ftabs" role="group" aria-label="カテゴリーで絞り込む"><button type="button" data-cat="all" aria-pressed="true">すべて</button>' + "".join(
+        f'<button type="button" data-cat="{CATS[c]}" aria-pressed="false">{c}</button>' for c in CATS) + "</div>"
+    cards = "\n".join(card_li(s_, m) for s_, m in order)
     body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
             f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、<strong>どれを選べばいいか</strong>を短くまとめています。数字には出典を付けています。</p>'
             f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
             + feature_and_cats(order) +
-            f'<h2 class="sec-title" id="kashitsuki">新着記事</h2>\n<ul class="cards">\n{cards}\n</ul>')
+            f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>' + FILTER_JS)
     (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "買う前に、メーカー公表の仕様と価格を同じ表に並べて比べる商品比較サイトです。", "") + body + FOOT, encoding="utf-8")
-    urls = [""] + [f"{s}.html" for s, _ in order] + ["about.html", "privacy.html"]
+    # カテゴリーページ
+    (ROOT / "public/category").mkdir(exist_ok=True)
+    for c, slug in CATS.items():
+        lst = [(s_, m) for s_, m in order if m["tag"] == c]
+        cards_c = "\n".join(card_li(s_, m) for s_, m in lst)
+        b = (f'<section class="hero"><p class="crumb"><a href="/">トップ</a> ＞ {c}</p><h1>{ICONS.get(c, "")} {c}の比較記事</h1>'
+             f'<p>{c}の型番ごとの違いを、メーカーと販売店の公表値で比べた記事です。全{len(lst)}本。</p></section>\n'
+             f'<ul class="cards" id="list">\n{cards_c}\n</ul>')
+        (ROOT / "public/category" / f"{slug}.html").write_text(
+            head(f"{c}の比較記事一覧 | {SITE}", f"{c}の型番の違いを公表値で比べた記事の一覧です。", f"category/{slug}.html") + b + FOOT, encoding="utf-8")
+    urls = [""] + [f"category/{v}.html" for v in CATS.values()] + [f"{s_}.html" for s_, _ in order] + ["about.html", "privacy.html"]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sm += "".join(f"<url><loc>{BASE}/{u}</loc><lastmod>2026-10-06</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (ROOT / "public/sitemap.xml").write_text(sm, encoding="utf-8")
