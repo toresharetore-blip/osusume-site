@@ -313,5 +313,50 @@
    "いちばん安い",
    "リクライニング5段階"
   ]
+ },
+ "THES-ZH": {
+  "id": "58451b70.2d664a13.58451b71.4ae31423",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fcombi%2Fthes-r129-zf%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58451b70.2d664a13.58451b71.4ae31423/?me_id=1418189&item_id=10000384&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fcombi%2Fcabinet%2Fthum%2Fchildseat%2Fthes-r129-zf.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ ホワイトレーベル THE S R129 エッグショック ZH",
+  "price": "価格：79,200円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ THE S ZH(2026年モデル)",
+  "chips": [
+   "2026年6月発売",
+   "13.8kg",
+   "シートホルダー付き",
+   "コンビ公式店"
+  ]
+ },
+ "THES-ZG": {
+  "id": "58451b70.2d664a13.58451b71.4ae31423",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fcombi%2Fthes-r129-zf_o%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58451b70.2d664a13.58451b71.4ae31423/?me_id=1418189&item_id=10000437&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fcombi%2Fcabinet%2Fthum%2Fshisaku%2Fthes-r129-zf_o.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ ホワイトレーベル THE S R129 エッグショック ZG",
+  "price": "価格：74,800円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ THE S ZG(2025年モデル)",
+  "chips": [
+   "2025年10月発売",
+   "13.7kg",
+   "メッシュ窓あり",
+   "コンビ公式店"
+  ]
+ },
+ "THES-PLUS-ZH": {
+  "id": "58451b70.2d664a13.58451b71.4ae31423",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fcombi%2F4972990195010%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58451b70.2d664a13.58451b71.4ae31423/?me_id=1418189&item_id=10000383&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fcombi%2Fcabinet%2Fthum%2Fchildseat%2F4972990195010.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ ホワイトレーベル THE S plus R129 エッグショック ZH",
+  "price": "価格：88,000円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ THE S plus ZH",
+  "chips": [
+   "上位モデル",
+   "サイドターン",
+   "COOLMAX",
+   "コンビ公式店限定"
+  ]
  }
 }
