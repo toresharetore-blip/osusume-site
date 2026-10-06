@@ -15,7 +15,7 @@ BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
 
-CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer"}
+CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat"}
 
 
 def cat_url(tag):
@@ -207,7 +207,7 @@ def article(slug, meta, body, all_meta):
         "@context": "https://schema.org",
         "@graph": [
             {"@type": "Article", "headline": meta["title"], "description": meta["description"],
-             "datePublished": "2026-10-06", "dateModified": "2026-10-06",
+             "datePublished": "2026-10-07", "dateModified": "2026-10-06",
              "author": {"@type": "Organization", "name": SITE + "編集部", "url": BASE + "/about.html"},
              "publisher": {"@type": "Organization", "name": SITE}, "image": og, "mainEntityOfPage": f"{BASE}/{slug}.html"},
             {"@type": "BreadcrumbList", "itemListElement": [
@@ -242,7 +242,8 @@ ICON_SVG = lambda d, c: f'<svg width="20" height="20" viewBox="0 0 24 24" fill="
 ICONS = {"加湿器": ICON_SVG('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>', "#2C7BD0"),
          "ふとん乾燥機": ICON_SVG('<path d="M3 18V8M21 18v-5a3 3 0 0 0-3-3H8v8M3 14h18"/><circle cx="6" cy="11" r="1.5"/>', "#DD7413"),
          "ドライヤー": ICON_SVG('<path d="M4 8h10a4 4 0 0 1 0 8H4zM9 16l-2 5M17 9h4M17 12h3M17 15h4"/>', "#6A4FB0"),
-         "衣類スチーマー": ICON_SVG('<path d="M4 15c0-4 3-7 8-7h6a2 2 0 0 1 2 2v5zM4 15h16M8 5c0-1 1-1 1-2M12 5c0-1 1-1 1-2"/>', "#1F8A70")}
+         "衣類スチーマー": ICON_SVG('<path d="M4 15c0-4 3-7 8-7h6a2 2 0 0 1 2 2v5zM4 15h16M8 5c0-1 1-1 1-2M12 5c0-1 1-1 1-2"/>', "#1F8A70"),
+         "チャイルドシート": ICON_SVG('<path d="M7 3h6a3 3 0 0 1 3 3v7l3 5H6l1-5z"/><path d="M10 9h4M8 21h11"/>', "#D0457A")}
 
 
 def feature_and_cats(order):
@@ -291,7 +292,7 @@ def write_index_and_sitemap(order):
             head(f"{c}の比較記事一覧 | {SITE}", f"{c}の型番の違いを公表値で比べた記事の一覧です。", f"category/{slug}.html") + b + FOOT, encoding="utf-8")
     urls = [""] + [f"category/{v}.html" for v in CATS.values()] + [f"{s_}.html" for s_, _ in order] + ["about.html", "privacy.html"]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    sm += "".join(f"<url><loc>{BASE}/{u}</loc><lastmod>2026-10-06</lastmod></url>\n" for u in urls) + "</urlset>\n"
+    sm += "".join(f"<url><loc>{BASE}/{u}</loc><lastmod>2026-10-07</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (ROOT / "public/sitemap.xml").write_text(sm, encoding="utf-8")
 
 

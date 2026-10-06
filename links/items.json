@@ -268,5 +268,50 @@
    "タンク約160mL",
    "約950g"
   ]
+ },
+ "CULMOVE-LONG-EA": {
+  "id": "58450508.a0d41713.58450509.ecd73ca1",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabuuu%2Fbgoods-00210%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58450508.a0d41713.58450509.ecd73ca1/?me_id=1422856&item_id=10000722&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabuuu%2Fcabinet%2F1004kd%2Fdefault%2Fs1%2F4972990193641_s1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ クルムーヴ ロング R129 エッグショック EA",
+  "price": "価格：54,900円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ クルムーヴ ロング EA",
+  "chips": [
+   "新生児〜10才頃",
+   "14.2kg",
+   "片手で回転",
+   "ジュニア兼用"
+  ]
+ },
+ "CULMOVE-COMPACT-JS": {
+  "id": "58450508.a0d41713.58450509.ecd73ca1",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabuuu%2Fbgoods-00028%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58450508.a0d41713.58450509.ecd73ca1/?me_id=1422856&item_id=10000044&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabuuu%2Fcabinet%2F1004kd%2Fdefault%2Fs1%2F4972990196710_s1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ クルムーヴ コンパクト R129 エッグショック JS",
+  "price": "価格：55,800円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ クルムーヴ コンパクト JS",
+  "chips": [
+   "新生児〜4才頃",
+   "11.5kg",
+   "前向き奥行52.6cm",
+   "片手で回転"
+  ]
+ },
+ "CULMOVE-CA": {
+  "id": "58450508.a0d41713.58450509.ecd73ca1",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabuuu%2Fbgoods-00076%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58450508.a0d41713.58450509.ecd73ca1/?me_id=1422856&item_id=10000558&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabuuu%2Fcabinet%2F1004kd%2Fdefault%2Fs1%2F4972990186018_s1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ クルムーヴ R129 エッグショック CA",
+  "price": "価格：50,380円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ クルムーヴ CA",
+  "chips": [
+   "新生児〜4才頃",
+   "14.9kg",
+   "いちばん安い",
+   "リクライニング5段階"
+  ]
  }
 }
