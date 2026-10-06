@@ -358,5 +358,35 @@
    "COOLMAX",
    "コンビ公式店限定"
   ]
+ },
+ "JOYTRIP-AIR-UA": {
+  "id": "58450508.a0d41713.58450509.ecd73ca1",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabuuu%2Fbgoods-00429%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58450508.a0d41713.58450509.ecd73ca1/?me_id=1422856&item_id=10001093&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabuuu%2Fcabinet%2F1004kd%2Fdefault%2Fs1%2F4972990196062_s1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ ジョイトリップ アドバンス air R129 UA",
+  "price": "価格：29,700円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ ジョイトリップ アドバンス air UA",
+  "chips": [
+   "2026年4月発売",
+   "6.1kg",
+   "リクライニングあり",
+   "テザーアラーム"
+  ]
+ },
+ "JOYTRIP-PLUS-SC": {
+  "id": "58450508.a0d41713.58450509.ecd73ca1",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabuuu%2Fbgoods-00029%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58450508.a0d41713.58450509.ecd73ca1/?me_id=1422856&item_id=10000045&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabuuu%2Fcabinet%2F1004kd%2Fdefault%2Fs1%2F4972990197984_s1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ ジョイトリップ アドバンス plus R129 エッグショック SC",
+  "price": "価格：38,600円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ ジョイトリップ アドバンス plus SC",
+  "chips": [
+   "レビュー474件",
+   "7.4kg",
+   "エッグショック",
+   "マグネットバックル"
+  ]
  }
 }
