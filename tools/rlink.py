@@ -41,7 +41,9 @@ def card(d):
     base = f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT}%3D%3D"
     a = 'target="_blank" rel="nofollow sponsored noopener"'
     chips = "".join(f"<li>{c}</li>" for c in d.get("chips", []))
-    price = d["price"].replace("価格：", "")
+    import re as _re
+    m = _re.match(r"価格：([\d,]+円)(.*)", d["price"])
+    price = f'{m.group(1)}<span class="tax">{m.group(2)}</span>' if m else d["price"]
     return (f'<div class="pcard"><a class="pimg" href="{base}" {a}><img src="{d["img"]}" alt="{d["short"]}" loading="lazy" width="240" height="240"></a>'
             f'<div class="pbody"><p class="pname"><a href="{base}" {a}>{d["short"]}</a></p><ul class="chips">{chips}</ul>'
             f'<p class="pprice">{price}<small>楽天市場での価格{d["date"]}。最新の価格は販売ページで確認してください</small></p>'

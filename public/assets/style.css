@@ -210,3 +210,84 @@ article p{margin:0 0 1.3em}
 .cards .txt .ttl{font-size:15px;font-weight:700;line-height:1.55;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
 .cards .txt .d{margin:0}
 .memo p{font-size:14.5px;line-height:1.85}
+
+/* ===== 色で情報を分ける(10/6 第4版) =====
+   緑=結論・おすすめ / 紺=見出し・構造 / 青=省エネ・電気代 / 橙=価格・お金 / 赤系=注意・デメリット */
+:root{
+  --navy:#22406A; --navy-soft:#EAF0F8;
+  --blue:#2C7BD0; --blue-soft:#E7F1FC;
+  --orange:#DD7413; --orange-soft:#FFF0DF;
+  --coral:#D2504A; --coral-soft:#FDEDEB;
+}
+.site-header{border-top:4px solid var(--navy)}
+.logo b{color:var(--navy)}
+h2{background:var(--navy-soft);border-left-color:var(--navy);color:var(--navy)}
+h3{border-bottom:none;padding-bottom:0;padding-left:14px;position:relative}
+h3::before{content:"";position:absolute;left:0;top:.35em;width:6px;height:1.05em;border-radius:3px;background:var(--orange)}
+article table tr:first-child th{background:var(--navy);border-color:var(--navy)}
+.toc{background:var(--navy-soft)}
+.toc b{color:var(--navy)}
+.memo{background:var(--blue-soft);border-color:#C9DDF3}
+.memo::before{content:"ⓘ メモ";color:var(--blue)}
+.caution{background:var(--coral-soft);border-color:#F3C9C5}
+.caution::before{color:var(--coral)}
+.cons{background:var(--coral-soft)}.cons b,.cons li::before{color:var(--coral)}
+.who{border-color:#F2CC9E;background:#FFFBF5}
+.who::before{background-color:var(--orange-soft);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DD7413'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z'/%3E%3C/svg%3E")}
+
+/* 表の中のバッジ:意味ごとに色を変える */
+.win{background:var(--accent)}
+.win.cheap{background:var(--orange)}
+.win.eco{background:var(--blue)}
+
+/* ひと目で判定:1枚ずつ役割の色 */
+.verdict div{background:var(--paper)}
+.verdict div:nth-child(1){background:var(--blue-soft);border-color:#C9DDF3}
+.verdict div:nth-child(1) span{color:var(--blue)}
+.verdict div:nth-child(2){background:var(--orange-soft);border-color:#F2CC9E}
+.verdict div:nth-child(2) span{color:var(--orange)}
+.verdict .go{background:var(--accent)!important;border-color:var(--accent)!important}
+.verdict .go span{color:#DDF1EA!important}
+
+/* グラフ:ふつう=青、一番よい=緑、一番悪い=赤 */
+.chart .fill{background:#8DB8E6}
+.chart .row.hi .fill{background:var(--accent)}
+.chart .row.bad .fill{background:var(--coral)}
+.chart .ct::before{content:"▍";color:var(--blue)}
+
+/* 違いの項目数 */
+.diffcount i.d{background:var(--orange)}
+.diffcount b{color:var(--orange)}
+
+/* 商品カード:価格は橙 */
+.pcard .pprice{color:var(--orange)}
+.pcard{border-top:4px solid var(--accent)}
+
+/* 結論枠 */
+.answer::before{background:var(--accent)}
+
+/* カテゴリーごとの色 */
+.tag,.cats a{background:var(--blue-soft)!important;color:var(--blue)!important}
+
+/* ===== トップの記事一覧:余白を詰めた1枚のリスト ===== */
+.hero{padding:16px 16px 14px;margin-bottom:14px}
+.hero h1{font-size:21px;margin:4px 0}
+.hero p{font-size:14.5px;line-height:1.8}
+.hero .stats{gap:8px;margin-top:10px}
+.hero .stats div{flex:1;min-width:90px;background:var(--navy-soft);border-radius:8px;padding:6px 8px;text-align:center;font-size:11px}
+.hero .stats b{font-size:17px;color:var(--navy)}
+.sec-title{margin:6px 4px 8px!important;font-size:14px!important;color:var(--navy)!important}
+.cards{gap:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cards li{margin:0;border-bottom:1px solid var(--line)}
+.cards li:last-child{border-bottom:0}
+.cards a{border:0;border-radius:0;padding:10px 12px;grid-template-columns:64px 1fr;gap:10px;align-items:center}
+.cards a:hover{background:#FAFBFC}
+.cards .thumb{width:64px;height:64px;border-radius:6px}
+.cards .txt{gap:2px}
+.cards .txt .ttl{font-size:14.5px;line-height:1.5}
+.cards .txt .meta2{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--ink3)}
+.cards .txt .meta2 .tag{font-size:10.5px;padding:0 6px}
+.verdict div:nth-child(3){background:#F3EFFB;border-color:#DCD0F2}
+.verdict div:nth-child(3) span{color:#6A4FB0}
+.hero .pr-note{font-size:11.5px;padding:2px 10px;line-height:1.7}
+.pcard .pprice .tax{font-size:11.5px;font-weight:700;margin-left:2px}

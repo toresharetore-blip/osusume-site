@@ -166,7 +166,7 @@ def write_index_and_sitemap(built):
         k = m.get("thumb")
         return f'<img class="thumb" src="{items[k]["img"]}" alt="" loading="lazy" width="84" height="84">' if k else '<span class="thumb"></span>'
     cards = "\n".join(
-        f'  <li><a href="/{s}.html">{thumb(m)}<span class="txt"><span class="tag">{m["tag"]}</span><span class="ttl">{m.get("short", m["title"])}</span><span class="d">{m["date"]}</span></span></a></li>'
+        f'  <li><a href="/{s}.html">{thumb(m)}<span class="txt"><span class="ttl">{m.get("short", m["title"])}</span><span class="meta2"><span class="tag">{m["tag"]}</span><span>{m["date"]}</span></span></span></a></li>'
         for s, m in order)
     body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
             f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、<strong>どれを選べばいいか</strong>を短くまとめています。数字には出典を付けています。</p>'
