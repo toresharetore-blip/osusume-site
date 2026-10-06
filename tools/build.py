@@ -57,6 +57,54 @@ def cardsub(m):
     return card(items[m.group(1)])
 
 
+def bars(m):
+    """{{BARS:タイトル|補足|単位|ラベル=値[!hi|!bad]|...}} を横棒グラフにする"""
+    parts = m.group(1).split("|")
+    title, sub, unit, rows = parts[0], parts[1], parts[2], parts[3:]
+    data = []
+    for r in rows:
+        lab, v = r.split("=")
+        flag = ""
+        if "!" in v:
+            v, flag = v.split("!")
+        data.append((lab, float(v.replace(",", "")), flag))
+    mx = max(v for _, v, _ in data)
+    out = [f'<div class="chart"><p class="ct">{title}</p><p class="cs">{sub}</p>']
+    for lab, v, flag in data:
+        w = v / mx * 100
+        txt = f"{v:,.0f}{unit}" if v >= 10 else f"{v:g}{unit}"
+        cls = "val out" if w > 55 else "val"
+        style = f"left:calc({max(w,1):.1f}% + 6px)" if w <= 55 else ""
+        out.append(f'<div class="row {flag}"><span class="lab">{lab}</span><span class="track"><span class="fill" style="--w:{w:.1f}"></span>'
+                   f'<span class="{cls}" style="{style}">{txt}</span></span></div>')
+    out.append("</div>")
+    return "".join(out)
+
+
+def verdict(m):
+    """{{VERDICT:見出し=値|見出し=値|見出し=値*}} 末尾*の枠を強調"""
+    tiles = []
+    for t in m.group(1).split("|"):
+        k, v = t.split("=")
+        go = v.endswith("*")
+        tiles.append(f'<div class="{"go" if go else ""}"><span>{k}</span><b>{v.rstrip("*")}</b></div>')
+    return '<div class="verdict">' + "".join(tiles) + "</div>"
+
+
+def diffcount(body):
+    """比較表の「同じ」セルを数えて、違う項目数を表の上に出す"""
+    def f(m):
+        table = m.group(0)
+        rows = re.findall(r"<tr>(.*?)</tr>", table, re.S)[1:]
+        if not rows or 'class="same"' not in table:
+            return table
+        same = sum(1 for r in rows if 'class="same"' in r)
+        diff = len(rows) - same
+        boxes = "".join('<i class="d"></i>' for _ in range(diff)) + "".join("<i></i>" for _ in range(same))
+        return f'<div class="diffcount">{boxes}<span>全{len(rows)}項目のうち、違いがあるのは<b>{diff}項目</b></span></div>' + table
+    return re.sub(r'<div class="table-wrap"><table>.*?</table></div>', f, body, flags=re.S)
+
+
 def link(m):
     k = m.group(1)
     code = rlink(items[k])
@@ -65,6 +113,9 @@ def link(m):
 
 def article(slug, meta, body):
     body = re.sub(r"\{\{CARD:([^}]+)\}\}", cardsub, body)
+    body = re.sub(r"\{\{BARS:([^}]+)\}\}", bars, body)
+    body = re.sub(r"\{\{VERDICT:([^}]+)\}\}", verdict, body)
+    body = diffcount(body)
     body = re.sub(r"\{\{LINK:([^}]+)\}\}", link, body)
     assert "{{" not in body, slug
     body = re.sub(r'<p class="lead">(.*?)</p>', r'<div class="answer"><p>\1</p></div>', body, count=1, flags=re.S)
@@ -115,7 +166,7 @@ def write_index_and_sitemap(built):
         k = m.get("thumb")
         return f'<img class="thumb" src="{items[k]["img"]}" alt="" loading="lazy" width="84" height="84">' if k else '<span class="thumb"></span>'
     cards = "\n".join(
-        f'  <li><a href="/{s}.html">{thumb(m)}<span><span class="tag">{m["tag"]}</span><br>{m["title"]}<span class="d">{m["date"]}</span></span></a></li>'
+        f'  <li><a href="/{s}.html">{thumb(m)}<span class="txt"><span class="tag">{m["tag"]}</span><span class="ttl">{m.get("short", m["title"])}</span><span class="d">{m["date"]}</span></span></a></li>'
         for s, m in order)
     body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
             f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、<strong>どれを選べばいいか</strong>を短くまとめています。数字には出典を付けています。</p>'
