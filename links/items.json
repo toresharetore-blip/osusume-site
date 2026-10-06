@@ -448,5 +448,80 @@
    "7.5kg",
    "1才3か月〜12才頃"
   ]
+ },
+ "AUTON-SECOND-QC": {
+  "id": "58450508.a0d41713.58450509.ecd73ca1",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabuuu%2Fbgoods-00353%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58450508.a0d41713.58450509.ecd73ca1/?me_id=1422856&item_id=10000975&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabuuu%2Fcabinet%2F1004kd%2Fdefault%2Fs1%2F4972990199568_s1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ auto N second QC",
+  "price": "価格：29,900円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ auto N second QC(2026年モデル)",
+  "chips": [
+   "フロントガード付き",
+   "5.9kg",
+   "6か月〜4才頃",
+   "オートクローズ"
+  ]
+ },
+ "AUTON-SECOND-QC-OFFICIAL": {
+  "id": "58451b70.2d664a13.58451b71.4ae31423",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fcombi%2Fauto-n-second-bq%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58451b70.2d664a13.58451b71.4ae31423/?me_id=1418189&item_id=10000422&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fcombi%2Fcabinet%2Fthum%2Fshisaku%2Fimgrc0119500686.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ auto N second QC(コンビ公式楽天市場店)",
+  "price": "価格：32,890円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ auto N second QC(公式店)",
+  "chips": [
+   "コンビ公式店",
+   "レビュー480件",
+   "フロントガード付き",
+   "5.9kg"
+  ]
+ },
+ "AUTON-SECOND-BQ": {
+  "id": "58451b70.2d664a13.58451b71.4ae31423",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fcombi%2Fauto-n-second-bq_2025%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58451b70.2d664a13.58451b71.4ae31423/?me_id=1418189&item_id=10000481&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fcombi%2Fcabinet%2Fthum%2Fshisaku%2Fimgrc0117955931.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ auto N second BQ",
+  "price": "価格：31,900円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ auto N second BQ(2025年モデル)",
+  "chips": [
+   "2025年モデル",
+   "5.9kg",
+   "ガードは別売",
+   "コンビ公式店"
+  ]
+ },
+ "AUTON-FIRST2-NC": {
+  "id": "58450508.a0d41713.58450509.ecd73ca1",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabuuu%2Fbgoods-00352%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58450508.a0d41713.58450509.ecd73ca1/?me_id=1422856&item_id=10000974&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabuuu%2Fcabinet%2F1004kd%2Fdefault%2Fs1%2F4972990197816_s1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ auto N first II NC",
+  "price": "価格：64,900円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ auto N first II NC(2026年モデル)",
+  "chips": [
+   "6.8kg",
+   "1か月〜3才頃",
+   "マグネットバックル",
+   "2026年4月発売"
+  ]
+ },
+ "AUTON-FIRST-BN": {
+  "id": "5846c422.490840bd.5846c423.80131810",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Forange-baby%2F49729901990anf%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c422.490840bd.5846c423.80131810/?me_id=1201017&item_id=10045806&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Forange-baby%2Fcabinet%2Fimgrc0145137868.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "コンビ auto N first BN",
+  "price": "価格：39,900円（税込、送料無料)",
+  "date": "(2026/10/7時点)",
+  "short": "コンビ auto N first BN(2025年モデル)",
+  "chips": [
+   "8.0kg",
+   "1か月〜4才頃",
+   "22kgまで",
+   "定価より約2万円安い"
+  ]
  }
 }
