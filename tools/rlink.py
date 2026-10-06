@@ -17,3 +17,20 @@ def build(d):
         f'<a href="{btn}" {a}><div style="float:right;width:41%;height:27px;background-color:#bf0000;color:#fff!important;font-size:12px;font-weight:500;line-height:27px;margin-left:1px;padding: 0 12px;border-radius:16px;cursor:pointer;text-align:center;"> 楽天で購入 </div></a></div>'
         '</td></tr></table></div><br><p style="color:#000000;font-size:12px;line-height:1.4em;margin:5px;word-wrap:break-word"></p></td></tr></table>'
     )
+
+
+UT128 = "eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJwaWN0dGV4dCIsInNpemUiOiIxMjh4MTI4IiwibmFtIjoxLCJuYW1wIjoicmlnaHQiLCJjb20iOjEsImNvbXAiOiJkb3duIiwicHJpY2UiOjEsImJvciI6MSwiY29sIjoxLCJiYnRuIjoxLCJwcm9kIjowLCJhbXAiOmZhbHNlfQ"
+
+
+def build128(d):
+    """スマホ幅に収まる「画像とテキスト(128x128)」版。リンク作成画面でサイズ128を選んだ時と同じ形。"""
+    base = f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT128}%3D%3D"
+    img = d["img"].replace("240x240", "128x128")
+    a = 'target="_blank" rel="nofollow sponsored noopener" style="word-wrap:break-word;"'
+    return (
+        '<table border="0" cellpadding="0" cellspacing="0"><tr><td><div style="border:1px solid #95a5a6;border-radius:.75rem;background-color:#FFFFFF;width:280px;margin:0px;padding:5px;text-align:center;overflow:hidden;"><table><tr><td style="width:128px">'
+        f'<a href="{base}" {a}><img src="{img}" border="0" style="margin:2px" alt="{ALT}" title="{ALT}"></a></td>'
+        '<td style="vertical-align:top;width:136px;display: block;"><p style="font-size:12px;line-height:1.4em;text-align:left;margin:0px;padding:2px 6px;word-wrap:break-word">'
+        f'<a href="{base}" {a}>{d["name"]}</a><br><span >{d["price"]}</span> <span style="color:#BBB">{d["date"]}</span></p>'
+        '</td></tr></table></div><br><p style="color:#000000;font-size:12px;line-height:1.4em;margin:5px;word-wrap:break-word"></p></td></tr></table>'
+    )

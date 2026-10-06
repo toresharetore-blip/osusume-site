@@ -1,35 +1,101 @@
+/* くらべてえらぶ:明るい紙面に、結論→表→選び方の順で読ませる比較サイト */
 :root{
-  --bg:#FAFAF7; --card:#FFFFFF; --ink:#1D2320; --ink2:#5A635E; --ink3:#8C948F;
-  --line:#E2E5E1; --accent:#1F6B5C; --accent-bg:#E8F2EF; --pr:#8A5A00; --pr-bg:#FFF4DE;
-  --f-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+  color-scheme: light;
+  --bg:#F4F6F5;          /* ページの地(ごく薄い青緑寄りのグレー) */
+  --paper:#FFFFFF;       /* 記事の紙面 */
+  --ink:#1F2421;         /* 本文 */
+  --ink2:#4E5752;        /* 補足 */
+  --ink3:#7E8782;        /* 注記 */
+  --line:#DDE3E0;
+  --accent:#0F7B65;      /* 見出し・リンク・枠 */
+  --accent-soft:#E6F3EF;
+  --point:#FFE58A;       /* 数字のマーカー */
+  --warn-bg:#FFF6E3; --warn:#8A5A00;
+  --buy:#BF0000;
+  --f:"Noto Sans JP","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
 }
-@media (prefers-color-scheme: dark){:root{
-  --bg:#141816; --card:#1B201D; --ink:#E6EBE8; --ink2:#A4AEA8; --ink3:#727C76;
-  --line:#2B322E; --accent:#6CC3AE; --accent-bg:#1C2B27; --pr:#F2C26B; --pr-bg:#2C2414; color-scheme:dark}}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;padding-inline:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16.5px;line-height:1.9;letter-spacing:.02em}
 a{color:var(--accent);text-underline-offset:3px}
-.site-header,.site-footer,main{max-width:760px;margin:0 auto}
-.site-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:18px;border-bottom:1px solid var(--line)}
-.logo{font-weight:800;font-size:18px;color:var(--ink);text-decoration:none;letter-spacing:.02em}
-.nav{display:flex;gap:16px;font-size:13px}
+img{max-width:100%}
+
+/* ヘッダー */
+.site-header{background:var(--paper);border-bottom:1px solid var(--line)}
+.site-header .in{max-width:780px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);line-height:1.3}
+.logo b{font-size:20px;font-weight:800;letter-spacing:.06em}
+.logo b i{font-style:normal;color:var(--accent)}
+.logo small{font-size:11.5px;color:var(--ink3);letter-spacing:.04em}
+.nav{display:flex;gap:14px;font-size:12.5px}
 .nav a{color:var(--ink2);text-decoration:none}
-main{padding-block:28px 56px;display:flex;flex-direction:column;gap:24px}
-h1{font-size:clamp(22px,4.5vw,28px);line-height:1.4;margin:0;text-wrap:balance}
-h2{font-size:20px;line-height:1.5;margin:32px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--line)}
-h3{font-size:17px;margin:24px 0 6px}
-p{margin:0 0 14px}
-.pr-note{background:var(--pr-bg);color:var(--pr);border-radius:6px;padding:8px 12px;font-size:13px;margin:0}
-.meta{color:var(--ink3);font-size:13px}
-.lead{color:var(--ink2)}
-.cards{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
-.cards a{display:block;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;text-decoration:none;color:var(--ink)}
-.cards a span{display:block;color:var(--ink3);font-size:13px}
-.table-wrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
-th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;white-space:nowrap}
-th{color:var(--ink2);font-weight:700;background:var(--accent-bg)}
-.site-footer{border-top:1px solid var(--line);padding-block:20px 40px;font-size:13px;color:var(--ink3);display:flex;flex-direction:column;gap:6px}
+
+/* 紙面 */
+.wrap{max-width:780px;margin:0 auto;padding:16px 12px 48px}
+article,.panel{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px 18px 30px}
+@media (min-width:640px){article,.panel{padding:34px 40px 44px}}
+.crumb{font-size:12px;color:var(--ink3);margin:0 0 10px}
+.crumb a{color:var(--ink3)}
+.pr-note{display:inline-block;background:var(--warn-bg);color:var(--warn);border-radius:4px;padding:2px 10px;font-size:12px;margin:0 0 10px}
+h1{font-size:clamp(21px,5vw,28px);line-height:1.5;margin:0 0 10px;text-wrap:balance;letter-spacing:.01em}
+.meta{color:var(--ink3);font-size:12.5px;margin:0 0 6px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 18px}
+.badges span{font-size:11.5px;border:1px solid var(--line);border-radius:99px;padding:1px 10px;color:var(--ink2);background:var(--bg)}
+
+/* 結論ボックス */
+.answer{border:2px solid var(--accent);border-radius:10px;padding:16px 16px 4px;margin:0 0 20px;position:relative;background:var(--paper)}
+.answer::before{content:"この記事の結論";position:absolute;top:-12px;left:14px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;padding:1px 12px;border-radius:99px;letter-spacing:.06em}
+.answer p{margin:6px 0 12px}
+
+/* 目次 */
+.toc{background:var(--bg);border-radius:8px;padding:12px 16px;margin:0 0 8px}
+.toc b{font-size:13px;color:var(--ink2)}
+.toc ol{margin:6px 0 0;padding-left:1.4em;font-size:14px;line-height:1.8}
+.toc a{color:var(--ink);text-decoration:none}
+.toc a:hover{color:var(--accent)}
+
+/* 見出し・本文 */
+h2{font-size:clamp(18px,4.4vw,21px);line-height:1.5;margin:40px 0 14px;padding:10px 14px;background:var(--accent-soft);border-left:5px solid var(--accent);border-radius:0 6px 6px 0;scroll-margin-top:12px}
+h3{font-size:17px;line-height:1.5;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+p{margin:0 0 16px}
+strong{font-weight:700;background:linear-gradient(transparent 62%,var(--point) 62%)}
+ul,ol{padding-left:1.4em}
+li{margin:4px 0}
+.lead{font-size:16.5px}
+
+/* 表 */
+.table-wrap{overflow-x:auto;margin:0 0 10px;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+article table th,article table td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+article table tr:first-child th{background:var(--accent);color:#fff;border-color:var(--accent)}
+article table td{overflow-wrap:anywhere}
+article table td:first-child{font-weight:700;background:#FAFBFA}
+article table.wide th,article table.wide td{min-width:5.5em}
+article table.wide td:first-child{min-width:7em}
+article table:not(.wide){table-layout:fixed}
+article table:not(.wide) tr>*:first-child{width:28%}
+@media (max-width:600px){article table{font-size:13px}article table th,article table td{padding:7px 7px}}
+.scroll-hint{font-size:12px;color:var(--ink3);margin:0 0 4px;text-align:right}
+article table tr:nth-child(odd) td:not(:first-child){background:#FCFDFC}
+
+/* 商品枠(楽天のリンクはそのまま入れる。表の装飾を中に効かせない) */
+.product table,.product tr,.product th,.product td,.product p{all:revert}
+.product{border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0 6px;background:#FCFDFC}
+.product .table-wrap{margin:0}
+
+/* トップの記事一覧 */
+.hero{padding:6px 2px 18px}
+.hero h1{margin-bottom:6px}
+.hero p{color:var(--ink2);margin:0}
+.cards{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.cards a{display:block;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--ink);font-weight:700;line-height:1.6}
+.cards a:hover{border-color:var(--accent)}
+.cards .tag{display:inline-block;font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:0 8px;margin-bottom:6px}
+.cards .d{display:block;font-weight:400;font-size:12px;color:var(--ink3);margin-top:4px}
+.sec-title{font-size:15px;margin:8px 2px 10px;color:var(--ink2);background:none;border:0;padding:0}
+
+/* フッター */
+.site-footer{max-width:780px;margin:0 auto;padding:8px 16px 40px;font-size:12px;color:var(--ink3);display:flex;flex-direction:column;gap:6px}
 .site-footer nav{display:flex;gap:14px;flex-wrap:wrap}
 .site-footer a{color:var(--ink2)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
