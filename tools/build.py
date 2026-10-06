@@ -225,11 +225,25 @@ def article(slug, meta, body, all_meta):
             + top + body + writer + "\n</article>" + related + FOOT)
 
 
+def _pubtime(f):
+    import subprocess, time
+    try:
+        r = subprocess.run(["git", "log", "--diff-filter=A", "--format=%ct", "--", str(f)], cwd=ROOT, capture_output=True, text=True)
+        ts = [int(x) for x in r.stdout.split()]
+        return min(ts) if ts else int(time.time())
+    except Exception:
+        return int(time.time())
+
+
 def load_all():
     out = []
     for f in sorted((ROOT / "content").glob("*.html")):
         first, body = f.read_text(encoding="utf-8").split("\n", 1)
-        out.append((f.stem, json.loads(first), body))
+        m = json.loads(first)
+        m["_pub"] = _pubtime(f)
+        keys = re.findall(r"\{\{CARD:([^}]+)\}\}", body)
+        m["_pop"] = max([items.get(k, {}).get("reviews", 0) for k in keys] or [0])
+        out.append((f.stem, m, body))
     return out
 
 
@@ -285,16 +299,27 @@ def write_index_and_sitemap(order):
     tabs = (f'<div class="ffilter"><label for="catsel">カテゴリーで絞り込む</label>'
             f'<select id="catsel"><option value="all">すべて({len(order)}本)</option>{opts}</select></div>')
     cards = "\n".join(card_li(s_, m) for s_, m in order)
+    latest = sorted(order, key=lambda x: -x[1]["_pub"])
+    popular, seen_tag = [], set()
+    for x in sorted([x for x in order if x[1]["_pop"] > 0], key=lambda x: -x[1]["_pop"]):
+        if x[1]["tag"] not in seen_tag:
+            popular.append(x); seen_tag.add(x[1]["tag"])
+        if len(popular) == 4:
+            break
+    cards_latest = "\n".join(card_li(s_, m) for s_, m in latest[:4])
+    cards_pop = "\n".join(card_li(s_, m) for s_, m in popular)
+    cards = "\n".join(card_li(s_, m) for s_, m in latest)
     body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
             f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、<strong>どれを選べばいいか</strong>を短くまとめています。数字には出典を付けています。</p>'
             f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
-            + feature_and_cats(order) +
+            f'<h2 class="sec-title">最新の記事</h2>\n<ul class="cards">\n{cards_latest}\n</ul>\n'
+            f'<h2 class="sec-title">人気の記事</h2>\n<p class="sec-note">楽天市場でレビューが多い(よく売れている)商品をあつかった記事です。</p>\n<ul class="cards">\n{cards_pop}\n</ul>\n'
             f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>' + FILTER_JS)
     (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "買う前に、メーカー公表の仕様と価格を同じ表に並べて比べる商品比較サイトです。", "") + body + FOOT, encoding="utf-8")
     # カテゴリーページ
     (ROOT / "public/category").mkdir(exist_ok=True)
     for c, slug in CATS.items():
-        lst = [(s_, m) for s_, m in order if m["tag"] == c]
+        lst = sorted([(s_, m) for s_, m in order if m["tag"] == c], key=lambda x: -x[1]["_pub"])
         cards_c = "\n".join(card_li(s_, m) for s_, m in lst)
         b = (f'<section class="hero"><p class="crumb"><a href="/">トップ</a> ＞ {c}</p><h1>{ICONS.get(c, "")} {c}の比較記事</h1>'
              f'<p>{c}の型番ごとの違いを、メーカーと販売店の公表値で比べた記事です。全{len(lst)}本。</p></section>\n'
