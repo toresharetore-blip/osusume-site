@@ -6,7 +6,7 @@
 - トップページとサイトマップも作る。"""
 import json, pathlib, re, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from rlink import build128 as rlink
+from rlink import build128 as rlink, card
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "くらべてえらぶ"
@@ -34,7 +34,9 @@ def head(title, description, canonical):
 <header class="site-header"><div class="in">
   <a class="logo" href="/"><b>くらべて<i>えらぶ</i></b><small>{TAGLINE}</small></a>
   <nav class="nav"><a href="/about.html">このサイトについて</a><a href="/privacy.html">プライバシーポリシー</a></nav>
-</div></header>
+</div>
+<nav class="cats"><a href="/">新着記事</a><a href="/#kashitsuki">加湿器</a></nav>
+</header>
 <div class="wrap">
 """
 
@@ -51,6 +53,10 @@ FOOT = f"""
 """
 
 
+def cardsub(m):
+    return card(items[m.group(1)])
+
+
 def link(m):
     k = m.group(1)
     code = rlink(items[k])
@@ -58,6 +64,7 @@ def link(m):
 
 
 def article(slug, meta, body):
+    body = re.sub(r"\{\{CARD:([^}]+)\}\}", cardsub, body)
     body = re.sub(r"\{\{LINK:([^}]+)\}\}", link, body)
     assert "{{" not in body, slug
     body = re.sub(r'<p class="lead">(.*?)</p>', r'<div class="answer"><p>\1</p></div>', body, count=1, flags=re.S)
@@ -82,7 +89,10 @@ def article(slug, meta, body):
            f'<p class="pr-note">PR 広告(楽天アフィリエイト)のリンクを含みます</p>\n'
            f'<h1>{meta["title"]}</h1>\n<p class="meta">公開・価格確認:{meta["date"]}</p>\n'
            f'<div class="badges"><span>メーカー・販売店の公表値で比較</span><span>出典つき</span></div>\n')
-    return head(f'{meta["title"]} | {SITE}', meta["description"], f"{slug}.html") + top + body + "\n</article>" + FOOT
+    writer = ('<div class="writer"><p><b>くらべてえらぶ編集部</b><br>メーカーと販売店が公表している仕様・価格を同じ基準で表にまとめています。'
+              '数値には出典を付け、実際に使って試していない商品はその旨を明記しています。'
+              '<a href="/about.html">運営方針を見る</a></p></div>')
+    return head(f'{meta["title"]} | {SITE}', meta["description"], f"{slug}.html") + top + body + writer + "\n</article>" + FOOT
 
 
 def build_all():
@@ -101,12 +111,16 @@ def build_all():
 
 def write_index_and_sitemap(built):
     order = sorted(built, key=lambda x: x[0] != "kashitsuki-denkidai")  # 総論の記事を先頭に
+    def thumb(m):
+        k = m.get("thumb")
+        return f'<img class="thumb" src="{items[k]["img"]}" alt="" loading="lazy" width="84" height="84">' if k else '<span class="thumb"></span>'
     cards = "\n".join(
-        f'  <li><a href="/{s}.html"><span class="tag">{m["tag"]}</span><br>{m["title"]}<span class="d">{m["date"]}</span></a></li>'
+        f'  <li><a href="/{s}.html">{thumb(m)}<span><span class="tag">{m["tag"]}</span><br>{m["title"]}<span class="d">{m["date"]}</span></span></a></li>'
         for s, m in order)
     body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
-            f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、どれを選べばいいかを短くまとめています。数字には出典を付けています。</p></section>\n'
-            f'<h2 class="sec-title">新着記事</h2>\n<ul class="cards">\n{cards}\n</ul>')
+            f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、<strong>どれを選べばいいか</strong>を短くまとめています。数字には出典を付けています。</p>'
+            f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
+            f'<h2 class="sec-title" id="kashitsuki">新着記事</h2>\n<ul class="cards">\n{cards}\n</ul>')
     (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "買う前に、メーカー公表の仕様と価格を同じ表に並べて比べる商品比較サイトです。", "") + body + FOOT, encoding="utf-8")
     urls = [""] + [f"{s}.html" for s, _ in order] + ["about.html", "privacy.html"]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

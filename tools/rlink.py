@@ -34,3 +34,15 @@ def build128(d):
         f'<a href="{base}" {a}>{d["name"]}</a><br><span >{d["price"]}</span> <span style="color:#BBB">{d["date"]}</span></p>'
         '</td></tr></table></div><br><p style="color:#000000;font-size:12px;line-height:1.4em;margin:5px;word-wrap:break-word"></p></td></tr></table>'
     )
+
+
+def card(d):
+    """商品カード(楽天のアフィリエイトURLと画像をそのまま使い、表示だけ自前のデザインにする)。"""
+    base = f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT}%3D%3D"
+    a = 'target="_blank" rel="nofollow sponsored noopener"'
+    chips = "".join(f"<li>{c}</li>" for c in d.get("chips", []))
+    price = d["price"].replace("価格：", "")
+    return (f'<div class="pcard"><a class="pimg" href="{base}" {a}><img src="{d["img"]}" alt="{d["short"]}" loading="lazy" width="240" height="240"></a>'
+            f'<div class="pbody"><p class="pname"><a href="{base}" {a}>{d["short"]}</a></p><ul class="chips">{chips}</ul>'
+            f'<p class="pprice">{price}<small>楽天市場での価格{d["date"]}。最新の価格は販売ページで確認してください</small></p>'
+            f'<a class="pbtn" href="{base}" {a}>楽天市場で見る</a></div></div>')

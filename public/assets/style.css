@@ -99,3 +99,73 @@ article table tr:nth-child(odd) td:not(:first-child){background:#FCFDFC}
 .site-footer nav{display:flex;gap:14px;flex-wrap:wrap}
 .site-footer a{color:var(--ink2)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ===== 読みやすさ強化(10/6 第2版) ===== */
+body{font-size:17px;line-height:2}
+article p{margin:0 0 1.3em}
+.site-header{border-top:4px solid var(--accent)}
+.cats{max-width:780px;margin:0 auto;padding:0 16px 10px;display:flex;gap:8px;flex-wrap:wrap}
+.cats a{font-size:12px;text-decoration:none;color:var(--accent);background:var(--accent-soft);border-radius:99px;padding:2px 12px;font-weight:700}
+
+/* 囲み */
+.point,.caution,.memo{border-radius:10px;padding:14px 16px 4px;margin:1.2em 0 1.6em;position:relative}
+.point{background:var(--accent-soft);border:1px solid #BFE0D6}
+.caution{background:var(--warn-bg);border:1px solid #F1D9A6}
+.memo{background:#F3F5F8;border:1px solid #DCE2EA}
+.point::before,.caution::before,.memo::before{display:block;font-size:13px;font-weight:800;margin-bottom:4px;letter-spacing:.06em}
+.point::before{content:"✔ ポイント";color:var(--accent)}
+.caution::before{content:"！ 注意";color:var(--warn)}
+.memo::before{content:"メモ";color:#4A5A70}
+.point p,.caution p,.memo p{margin:0 0 .8em}
+
+/* メリット・デメリット */
+.proscons{display:grid;gap:10px;margin:1em 0 1.6em}
+@media (min-width:640px){.proscons{grid-template-columns:1fr 1fr}}
+.proscons>div{border-radius:10px;padding:12px 14px;border:1px solid var(--line)}
+.proscons b{display:block;font-size:14px;margin-bottom:4px}
+.proscons ul{list-style:none;padding:0;margin:0;font-size:15px;line-height:1.8}
+.proscons li{padding-left:1.4em;position:relative;margin:4px 0}
+.pros{background:#F2FAF7}.pros b{color:var(--accent)}
+.pros li::before{content:"○";position:absolute;left:0;color:var(--accent);font-weight:800}
+.cons{background:#FFF8F5}.cons b{color:#B4532A}
+.cons li::before{content:"△";position:absolute;left:0;color:#B4532A;font-weight:800}
+
+/* こんな人に */
+.who{display:flex;gap:10px;align-items:flex-start;background:var(--paper);border:2px dashed #BFE0D6;border-radius:10px;padding:12px 14px;margin:0 0 1.2em}
+.who::before{content:"";flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230F7B65'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z'/%3E%3C/svg%3E") center/22px no-repeat}
+.who p{margin:0;font-size:15.5px;line-height:1.8}
+
+/* 判定バッジ(表の中) */
+.win{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;border-radius:4px;padding:0 6px;margin-left:4px;vertical-align:1px}
+.same{color:var(--ink3)}
+
+/* 商品カード */
+.pcard{display:grid;grid-template-columns:120px 1fr;gap:14px;border:1px solid var(--line);border-radius:12px;padding:14px;margin:1em 0 .6em;background:var(--paper);box-shadow:0 2px 10px rgba(20,60,50,.06)}
+@media (min-width:640px){.pcard{grid-template-columns:160px 1fr}}
+.pcard .pimg img{width:100%;height:auto;border-radius:8px;display:block;background:#F6F7F6}
+.pcard .pbody{min-width:0;display:flex;flex-direction:column;gap:6px}
+.pcard .pname{margin:0;font-size:14.5px;line-height:1.6;font-weight:700}
+.pcard .pname a{color:var(--ink);text-decoration:none}
+.pcard .chips{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:4px}
+.pcard .chips li{font-size:11.5px;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 6px;margin:0;line-height:1.7}
+.pcard .pprice{margin:0;font-size:15px;font-weight:800;color:var(--ink)}
+.pcard .pprice small{display:block;font-weight:400;font-size:11px;color:var(--ink3)}
+.pcard .pbtn{display:block;text-align:center;background:#BF0000;color:#fff;text-decoration:none;font-weight:700;font-size:14.5px;border-radius:99px;padding:10px 12px;margin-top:4px;box-shadow:0 2px 0 #8E0000}
+.pcard .pbtn:active{transform:translateY(1px);box-shadow:none}
+.review-note{font-size:12.5px;color:var(--ink3);line-height:1.8;margin:0 0 1.6em}
+
+/* 運営者ボックス */
+.writer{display:flex;gap:12px;align-items:flex-start;border-top:1px solid var(--line);margin-top:2.4em;padding-top:1.4em}
+.writer::before{content:"";flex:none;width:44px;height:44px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='M3 6h18M3 12h12M3 18h8'/%3E%3C/svg%3E") center/22px no-repeat}
+.writer p{margin:0;font-size:13.5px;line-height:1.8;color:var(--ink2)}
+.writer b{color:var(--ink)}
+
+/* トップのカード(画像つき) */
+.cards a{display:grid;grid-template-columns:84px 1fr;gap:12px;align-items:center}
+.cards .thumb{width:84px;height:84px;border-radius:8px;object-fit:cover;background:var(--bg)}
+.hero{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 18px;margin-bottom:18px}
+.hero .stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
+.hero .stats div{font-size:12px;color:var(--ink3)}
+.hero .stats b{display:block;font-size:20px;color:var(--accent);font-weight:800;line-height:1.3}
+.pcard .pprice{line-height:1.5}
+.hero .pr-note{margin-bottom:12px}
