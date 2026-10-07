@@ -10,7 +10,7 @@ from rlink import build128 as rlink, card, thumb_url
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "くらべてえらぶ"
-TAGLINE = "買う前に、仕様と価格を同じ表でくらべる"
+TAGLINE = "ベビー・子育て用品の型番を、同じ表でくらべる"
 BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
@@ -354,7 +354,8 @@ def write_index_and_sitemap(order):
     cards = "\n".join(card_li(s_, m) for s_, m in order)
     latest = sorted(order, key=lambda x: -x[1]["_pub"])
     popular, seen_tag = [], set()
-    for x in sorted([x for x in order if x[1]["_pop"] > 0], key=lambda x: -x[1]["_pop"]):
+    baby_tags = set(GROUPS[0][1])
+    for x in sorted([x for x in order if x[1]["_pop"] > 0 and x[1]["tag"] in baby_tags], key=lambda x: -x[1]["_pop"]):
         if x[1]["tag"] not in seen_tag:
             popular.append(x); seen_tag.add(x[1]["tag"])
         if len(popular) == 4:
@@ -363,12 +364,12 @@ def write_index_and_sitemap(order):
     cards_pop = "\n".join(card_li(s_, m) for s_, m in popular)
     cards = "\n".join(card_li(s_, m) for s_, m in latest)
     body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
-            f'<h1>買う前に、くらべて選ぶ</h1>\n<p>メーカーと販売店が公表している仕様と価格を同じ表に並べ、<strong>どれを選べばいいか</strong>を短くまとめています。数字には出典を付けています。</p>'
+            f'<h1>ベビー・子育て用品を、買う前にくらべる</h1>\n<p>チャイルドシート、ベビーカー、抱っこひもなどの<strong>型番の違い</strong>と<strong>いつまで使えるか</strong>を、メーカーの公表値で同じ表に並べています。数字には出典を付けています。</p>'
             f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
             f'<h2 class="sec-title">最新の記事</h2>\n<ul class="cards">\n{cards_latest}\n</ul>\n'
             f'<h2 class="sec-title">人気の記事</h2>\n<p class="sec-note">楽天市場でレビューが多い(よく売れている)商品をあつかった記事です。</p>\n<ul class="cards">\n{cards_pop}\n</ul>\n'
             f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>' + FILTER_JS)
-    (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "買う前に、メーカー公表の仕様と価格を同じ表に並べて比べる商品比較サイトです。", "") + body + FOOT, encoding="utf-8")
+    (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "チャイルドシート・ベビーカー・抱っこひもなど、ベビー・子育て用品の型番の違いといつまで使えるかを、メーカー公表の仕様と価格で比べるサイトです。", "") + body + FOOT, encoding="utf-8")
     # サイト内検索
     idx = [{"u": f"/{s_}.html", "t": m.get("short", m["title"]), "h": m["title"], "d": m["description"], "c": m["tag"],
             "i": thumb_url(items[m["thumb"]], 128) if m.get("thumb") else "", "p": m["_pub"]} for s_, m in order]
