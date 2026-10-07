@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>抱っこひもの比較記事一覧 | くらべてえらぶ</title>
-<meta name="description" content="抱っこひもの型番の違いを公表値で比べた記事の一覧です。">
-<link rel="canonical" href="https://osusume-site.toresharetore.workers.dev/category/carrier.html">
+<title>サイト内検索 | くらべてえらぶ</title>
+<meta name="description" content="くらべてえらぶのサイト内検索です。">
+<link rel="canonical" href="https://osusume-site.toresharetore.workers.dev/search.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="くらべてえらぶ">
-<meta property="og:title" content="抱っこひもの比較記事一覧 | くらべてえらぶ">
-<meta property="og:description" content="抱っこひもの型番の違いを公表値で比べた記事の一覧です。">
-<meta property="og:url" content="https://osusume-site.toresharetore.workers.dev/category/carrier.html">
+<meta property="og:title" content="サイト内検索 | くらべてえらぶ">
+<meta property="og:description" content="くらべてえらぶのサイト内検索です。">
+<meta property="og:url" content="https://osusume-site.toresharetore.workers.dev/search.html">
 
 <meta name="twitter:card" content="summary">
 
@@ -28,12 +28,24 @@
 </div>
 </header>
 <div class="wrap">
-<section class="hero"><p class="crumb"><a href="/">トップ</a> ＞ 抱っこひも</p><h1><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7A5AC8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><path d="M7 9c0 6 2 9 5 9s5-3 5-9M7 9l-2 12M17 9l2 12"/></svg> 抱っこひもの比較記事</h1><p>抱っこひもの型番ごとの違いを、メーカーと販売店の公表値で比べた記事です。全3本。</p></section>
-<ul class="cards" id="list">
-  <li data-cat="carrier"><a href="/ergo-omni-classic-adapt-chigai.html"><span class="thumb"><img src="https://thumbnail.image.rakuten.co.jp/@0_mall/babuuu/cabinet/1004kd/default/s1/191653005679_s1a.jpg?_ex=128x128" alt="" loading="lazy" width="64" height="64"></span><span class="txt"><span class="ttl">エルゴ OMNI ClassicとADAPTの違い(前向き抱き)</span><span class="meta2"><span class="tag">抱っこひも</span><span>2026年10月7日</span></span></span></a></li>
-  <li data-cat="carrier"><a href="/ergo-omni-deluxe-classic-chigai.html"><span class="thumb"><img src="https://thumbnail.image.rakuten.co.jp/@0_mall/i-love-baby/cabinet/item/item0057/m-5950.jpg?_ex=128x128" alt="" loading="lazy" width="64" height="64"></span><span class="txt"><span class="ttl">エルゴ OMNI DeluxeとOMNI Classicの違い(約1.7万円差)</span><span class="meta2"><span class="tag">抱っこひも</span><span>2026年10月7日</span></span></span></a></li>
-  <li data-cat="carrier"><a href="/ergo-omni-deluxe-classic-adapt-chigai.html"><span class="thumb"><img src="https://thumbnail.image.rakuten.co.jp/@0_mall/babuuu/cabinet/1004kd/default/s1/191653012882_s1.jpg?_ex=128x128" alt="" loading="lazy" width="64" height="64"></span><span class="txt"><span class="ttl">エルゴ OMNI Deluxe・OMNI Classic・ADAPTの違い</span><span class="meta2"><span class="tag">抱っこひも</span><span>2026年10月7日</span></span></span></a></li>
-</ul>
+<section class="hero"><p class="crumb"><a href="/">トップ</a> ＞ サイト内検索</p><h1>サイト内検索</h1><form class="sbox big" action="/search.html" method="get" role="search"><input type="search" name="q" id="q" placeholder="例:オムニクラシック、クルムーヴ、ベビーカー" aria-label="サイト内検索"><button type="submit">検索</button></form><p id="sres-msg" class="sec-note"></p></section>
+<ul class="cards" id="sres"></ul><script>
+(function(){
+  var q=new URLSearchParams(location.search).get('q')||'';
+  var inp=document.getElementById('q'); inp.value=q;
+  var msg=document.getElementById('sres-msg'), ul=document.getElementById('sres');
+  function norm(s){return (s||'').normalize('NFKC').toLowerCase().replace(/[\s・　]+/g,' ');}
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  if(!q.trim()){msg.textContent='型番や商品名、カテゴリー名を入れて検索してください。';return;}
+  fetch('/search-index.json').then(function(r){return r.json();}).then(function(idx){
+    var terms=norm(q).split(' ').filter(Boolean);
+    var hits=idx.filter(function(x){var hay=norm(x.t+' '+x.h+' '+x.d+' '+x.c).replace(/ /g,'');return terms.every(function(t){return hay.indexOf(t.replace(/ /g,''))>=0;});});
+    hits.sort(function(a,b){return b.p-a.p;});
+    msg.textContent='「'+q+'」の検索結果:'+hits.length+'件'+(hits.length?'':'。別の言葉(型番の一部やカテゴリー名)でもお試しください。');
+    ul.innerHTML=hits.map(function(x){return '<li><a href="'+x.u+'"><span class="thumb">'+(x.i?'<img src="'+x.i+'" alt="" width="64" height="64" loading="lazy">':'')+'</span><span class="txt"><span class="ttl">'+esc(x.t)+'</span><span class="meta2"><span class="tag">'+esc(x.c)+'</span></span></span></a></li>';}).join('');
+  });
+})();
+</script>
 </div>
 <footer class="site-footer">
   <nav class="fcats"><a href="/category/kashitsuki.html">加湿器</a><a href="/category/futon-kansouki.html">ふとん乾燥機</a><a href="/category/dryer.html">ドライヤー</a><a href="/category/steamer.html">衣類スチーマー</a><a href="/category/childseat.html">チャイルドシート</a><a href="/category/carrier.html">抱っこひも</a><a href="/category/stroller.html">ベビーカー</a><a href="/category/babyrack.html">ベビーラック</a></nav>

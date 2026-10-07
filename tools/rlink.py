@@ -57,3 +57,16 @@ def card(d):
             f'<div class="pbody"><p class="pname"><a href="{base}" {a}>{d["short"]}</a></p><ul class="chips">{chips}</ul>'
             f'<p class="pprice">{price}<small>楽天市場での価格{d["date"]}。最新の価格は販売ページで確認してください</small></p>'
             f'<a class="pbtn" href="{base}" {a}>楽天市場で見る</a></div></div>')
+
+
+def minicard(d, label="この記事のおすすめ"):
+    """記事上部に置く小さな商品リンク(結論のすぐ下で楽天へ進めるように)。"""
+    base = f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT}%3D%3D"
+    a = 'target="_blank" rel="nofollow sponsored noopener"'
+    import re as _re
+    m = _re.match(r"価格：([\d,]+円)", d["price"])
+    price = m.group(1) if m else ""
+    return (f'<div class="minicard"><span class="mlabel">{label}</span><a class="mrow" href="{base}" {a}>'
+            f'<img src="{thumb_url(d, 128)}" alt="" width="64" height="64" loading="lazy">'
+            f'<span class="mtxt"><b>{d["short"]}</b><span>楽天市場 {price}〜{d["date"]}</span></span>'
+            f'<span class="mbtn">価格とレビューを見る</span></a></div>')

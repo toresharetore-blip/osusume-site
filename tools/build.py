@@ -15,10 +15,10 @@ BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
 
-CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier", "ベビーカー": "stroller"}
+CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier", "ベビーカー": "stroller", "ベビーラック": "babyrack"}
 
 
-GROUPS = [("ベビー・キッズ", ["チャイルドシート", "ベビーカー", "抱っこひも"]),
+GROUPS = [("ベビー・キッズ", ["チャイルドシート", "ベビーカー", "抱っこひも", "ベビーラック"]),
           ("家電", ["加湿器", "ふとん乾燥機", "ドライヤー", "衣類スチーマー"])]
 for _c in CATS:
     if not any(_c in g for _, g in GROUPS):
@@ -56,6 +56,7 @@ def head(title, description, canonical, og_image=None, jsonld=None):
 <body>
 <header class="site-header"><div class="in">
   <a class="logo" href="/"><b>くらべて<i>えらぶ</i></b><small>{TAGLINE}</small></a>
+  <form class="sbox" action="/search.html" method="get" role="search"><input type="search" name="q" placeholder="型番・商品名で検索" aria-label="サイト内検索"><button type="submit" aria-label="検索">検索</button></form>
   <details class="catmenu"><summary>カテゴリー</summary><div class="catpanel"><a class="all" href="/">すべての記事</a>{catnav}</div></details>
 </div>
 </header>
@@ -172,6 +173,8 @@ def card_li(s_, m):
 
 
 def article(slug, meta, body, all_meta):
+    first_card = (re.findall(r"\{\{CARD:([^}]+)\}\}", body) or [None])[0]
+    pick = meta.get("pick", first_card)
     body = re.sub(r"\{\{CARD:([^}]+)\}\}", cardsub, body)
     body = re.sub(r"\{\{BARS:([^}]+)\}\}", bars, body)
     body = re.sub(r"\{\{VERDICT:([^}]+)\}\}", verdict, body)
@@ -180,6 +183,9 @@ def article(slug, meta, body, all_meta):
     body = re.sub(r"\{\{LINK:([^}]+)\}\}", link, body)
     assert "{{" not in body, slug
     body = re.sub(r'<p class="lead">(.*?)</p>', r'<div class="answer"><p>\1</p></div>', body, count=1, flags=re.S)
+    if pick and pick in items:
+        from rlink import minicard
+        body = body.replace('</div>', '</div>\n' + minicard(items[pick]), 1) if body.startswith('<div class="answer">') else body
 
     def hint(m):
         first_row = re.search(r"<tr>(.*?)</tr>", m.group(0), re.S).group(1)
@@ -266,7 +272,8 @@ ICONS = {"加湿器": ICON_SVG('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6
          "衣類スチーマー": ICON_SVG('<path d="M4 15c0-4 3-7 8-7h6a2 2 0 0 1 2 2v5zM4 15h16M8 5c0-1 1-1 1-2M12 5c0-1 1-1 1-2"/>', "#1F8A70"),
          "チャイルドシート": ICON_SVG('<path d="M7 3h6a3 3 0 0 1 3 3v7l3 5H6l1-5z"/><path d="M10 9h4M8 21h11"/>', "#D0457A"),
          "抱っこひも": ICON_SVG('<circle cx="12" cy="5" r="2.5"/><path d="M7 9c0 6 2 9 5 9s5-3 5-9M7 9l-2 12M17 9l2 12"/>', "#7A5AC8"),
-         "ベビーカー": ICON_SVG('<path d="M4 6h3l2 8h9l2-6H8"/><circle cx="9" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>', "#2A8C8C")}
+         "ベビーカー": ICON_SVG('<path d="M4 6h3l2 8h9l2-6H8"/><circle cx="9" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>', "#2A8C8C"),
+         "ベビーラック": ICON_SVG('<path d="M5 20l3-6h8l3 6M8 14V7a4 4 0 0 1 8 0v7"/>', "#C77D2E")}
 
 
 def feature_and_cats(order):
@@ -276,6 +283,25 @@ def feature_and_cats(order):
     for _, m in order:
         counts[m["tag"]] = counts.get(m["tag"], 0) + 1
     return feat
+
+
+SEARCH_JS = """<script>
+(function(){
+  var q=new URLSearchParams(location.search).get('q')||'';
+  var inp=document.getElementById('q'); inp.value=q;
+  var msg=document.getElementById('sres-msg'), ul=document.getElementById('sres');
+  function norm(s){return (s||'').normalize('NFKC').toLowerCase().replace(/[\\s・　]+/g,' ');}
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  if(!q.trim()){msg.textContent='型番や商品名、カテゴリー名を入れて検索してください。';return;}
+  fetch('/search-index.json').then(function(r){return r.json();}).then(function(idx){
+    var terms=norm(q).split(' ').filter(Boolean);
+    var hits=idx.filter(function(x){var hay=norm(x.t+' '+x.h+' '+x.d+' '+x.c).replace(/ /g,'');return terms.every(function(t){return hay.indexOf(t.replace(/ /g,''))>=0;});});
+    hits.sort(function(a,b){return b.p-a.p;});
+    msg.textContent='「'+q+'」の検索結果:'+hits.length+'件'+(hits.length?'':'。別の言葉(型番の一部やカテゴリー名)でもお試しください。');
+    ul.innerHTML=hits.map(function(x){return '<li><a href="'+x.u+'"><span class="thumb">'+(x.i?'<img src="'+x.i+'" alt="" width="64" height="64" loading="lazy">':'')+'</span><span class="txt"><span class="ttl">'+esc(x.t)+'</span><span class="meta2"><span class="tag">'+esc(x.c)+'</span></span></span></a></li>';}).join('');
+  });
+})();
+</script>"""
 
 
 FILTER_JS = """<script>
@@ -316,6 +342,14 @@ def write_index_and_sitemap(order):
             f'<h2 class="sec-title">人気の記事</h2>\n<p class="sec-note">楽天市場でレビューが多い(よく売れている)商品をあつかった記事です。</p>\n<ul class="cards">\n{cards_pop}\n</ul>\n'
             f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>' + FILTER_JS)
     (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "買う前に、メーカー公表の仕様と価格を同じ表に並べて比べる商品比較サイトです。", "") + body + FOOT, encoding="utf-8")
+    # サイト内検索
+    idx = [{"u": f"/{s_}.html", "t": m.get("short", m["title"]), "h": m["title"], "d": m["description"], "c": m["tag"],
+            "i": thumb_url(items[m["thumb"]], 128) if m.get("thumb") else "", "p": m["_pub"]} for s_, m in order]
+    (ROOT / "public/search-index.json").write_text(json.dumps(idx, ensure_ascii=False), encoding="utf-8")
+    sb = ('<section class="hero"><p class="crumb"><a href="/">トップ</a> ＞ サイト内検索</p><h1>サイト内検索</h1>'
+          '<form class="sbox big" action="/search.html" method="get" role="search"><input type="search" name="q" id="q" placeholder="例:オムニクラシック、クルムーヴ、ベビーカー" aria-label="サイト内検索"><button type="submit">検索</button></form>'
+          '<p id="sres-msg" class="sec-note"></p></section>\n<ul class="cards" id="sres"></ul>' + SEARCH_JS)
+    (ROOT / "public/search.html").write_text(head(f"サイト内検索 | {SITE}", "くらべてえらぶのサイト内検索です。", "search.html") + sb + FOOT, encoding="utf-8")
     # カテゴリーページ
     (ROOT / "public/category").mkdir(exist_ok=True)
     for c, slug in CATS.items():
