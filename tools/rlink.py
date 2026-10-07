@@ -70,3 +70,17 @@ def minicard(d, label="この記事のおすすめ"):
             f'<img src="{thumb_url(d, 128)}" alt="" width="64" height="64" loading="lazy">'
             f'<span class="mtxt"><b>{d["short"]}</b><span>楽天市場 {price}〜{d["date"]}</span></span>'
             f'<span class="mbtn">価格とレビューを見る</span></a></div>')
+
+
+def minirow(d, article_url):
+    """「同じカテゴリーでよく売れている商品」の1行。"""
+    base = f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT}%3D%3D"
+    a = 'target="_blank" rel="nofollow sponsored noopener"'
+    import re as _re
+    m = _re.match(r"価格：([\d,]+円)", d["price"])
+    price = m.group(1) if m else ""
+    rv = f'・レビュー{d["reviews"]:,}件' if d.get("reviews") else ""
+    return (f'<div class="arow"><a class="aimg" href="{base}" {a}><img src="{thumb_url(d, 128)}" alt="" width="56" height="56" loading="lazy"></a>'
+            f'<div class="atxt"><a class="aname" href="{base}" {a}>{d["short"]}</a><span>楽天市場 {price}〜{rv}</span>'
+            f'<a class="aart" href="{article_url}">この商品の比較記事を読む</a></div>'
+            f'<a class="abtn" href="{base}" {a}>楽天で見る</a></div>')

@@ -172,7 +172,31 @@ def card_li(s_, m):
             f'<span class="meta2"><span class="tag">{m["tag"]}</span><span>{m["date"]}</span></span></span></a></li>')
 
 
+ITEM_HOME = {}
+
+
+def also_items(slug, meta, body):
+    """同じカテゴリーで楽天のレビューが多い、この記事に出てこない商品を3つ"""
+    here = set(re.findall(r"\{\{CARD:([^}]+)\}\}", body))
+    cand = [(k, h) for k, h in ITEM_HOME.items() if h[0] == meta["tag"] and k not in here and items[k].get("reviews", 0) > 0]
+    cand.sort(key=lambda x: -items[x[0]].get("reviews", 0))
+    here_names = {re.sub(r"[(（].*", "", items[k]["short"]).strip() for k in here if k in items}
+    seen, uniq = set(here_names), []
+    for k, h in cand:
+        nm = re.sub(r"[(（].*", "", items[k]["short"]).strip()
+        if nm not in seen:
+            seen.add(nm); uniq.append((k, h))
+    cand = uniq
+    if not cand:
+        return ""
+    from rlink import minirow
+    rows = "".join(minirow(items[k], f"/{h[1]}.html") for k, h in cand[:3])
+    return (f'<section class="alsobuy"><p class="sec-title">同じカテゴリーでよく売れている商品</p>'
+            f'<p class="sec-note">楽天市場でレビューが多い順です。それぞれの比較記事もあります。</p>{rows}</section>')
+
+
 def article(slug, meta, body, all_meta):
+    alsobuy = also_items(slug, meta, body)
     first_card = (re.findall(r"\{\{CARD:([^}]+)\}\}", body) or [None])[0]
     pick = meta.get("pick", first_card)
     body = re.sub(r"\{\{CARD:([^}]+)\}\}", cardsub, body)
@@ -228,7 +252,7 @@ def article(slug, meta, body, all_meta):
                 {"@type": "ListItem", "position": 2, "name": meta["tag"], "item": BASE + cat_url(meta["tag"])},
                 {"@type": "ListItem", "position": 3, "name": meta.get("short", meta["title"])}]}]}, ensure_ascii=False)
     return (head(f'{meta["title"]} | {SITE}', meta["description"], f"{slug}.html", og, jsonld)
-            + top + body + writer + "\n</article>" + related + FOOT)
+            + top + (body.replace('<h2 id="s' + str(len(heads)) + '">出典', alsobuy + '<h2 id="s' + str(len(heads)) + '">出典', 1) if alsobuy and ('<h2 id="s' + str(len(heads)) + '">出典') in body else body + alsobuy) + writer + "\n</article>" + related + FOOT)
 
 
 def _pubtime(f):
@@ -255,6 +279,9 @@ def load_all():
 
 def build_all():
     loaded = load_all()
+    for s_, m, body in sorted(loaded, key=lambda x: x[1]["_pub"]):
+        for k in re.findall(r"\{\{CARD:([^}]+)\}\}", body):
+            ITEM_HOME.setdefault(k, (m["tag"], s_))
     order = sorted([(s_, m) for s_, m, _ in loaded], key=lambda x: (x[0] != "kashitsuki-denkidai", x[1].get("order", 50), x[0]))
     for s_, m, body in loaded:
         (ROOT / "public" / f"{s_}.html").write_text(article(s_, m, body, order), encoding="utf-8")

@@ -394,3 +394,13 @@ article h2::before{content:counter(sec,decimal-leading-zero);font-size:13px;font
 .sbox.big input{font-size:16px;padding:10px 14px}
 @media (max-width:620px){.site-header .sbox{order:3;flex-basis:100%;max-width:none;margin:0}.site-header .sbox input{font-size:16px}}
 @media (max-width:620px){.site-header .logo{flex:1;min-width:0}.site-header .logo small{font-size:10.5px}}
+
+/* 同じカテゴリーでよく売れている商品 */
+.alsobuy{margin:28px 0 8px}
+.alsobuy .arow{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:0 0 8px;background:var(--paper)}
+.alsobuy .aimg img{width:56px;height:56px;object-fit:contain;border-radius:6px;background:#fff;display:block}
+.alsobuy .atxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:13.5px;line-height:1.4}
+.alsobuy .aname{font-weight:700;color:var(--ink);text-decoration:none}
+.alsobuy .atxt span{font-size:12px;color:var(--ink3)}
+.alsobuy .aart{font-size:12px;color:var(--blue)}
+.alsobuy .abtn{flex:none;font-size:12px;font-weight:800;color:#fff;background:#BF0000;border-radius:99px;padding:7px 12px;text-decoration:none;white-space:nowrap}
