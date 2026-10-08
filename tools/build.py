@@ -8,6 +8,19 @@ import json, pathlib, re, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from rlink import build128 as rlink, card, thumb_url
 
+# Cloudflareは「.html」付きURLを「.html」なしへ301転送する。サイトマップ・canonical・内部リンクを
+# 最初から「.html」なしのURLにそろえ、転送ループ(Search Consoleの「リダイレクト エラー」)を防ぐ。
+_CLEAN1 = re.compile(r"""(["'])(/[\w/-]+)\.html(?=["'#?])""")
+_CLEAN2 = re.compile(r"(workers\.dev/[\w/-]+)\.html")
+def clean_urls(t):
+    return _CLEAN2.sub(r"\1", _CLEAN1.sub(r"\1\2", t))
+_orig_write_text = pathlib.Path.write_text
+def _write_text(self, data, *a, **k):
+    if self.suffix in (".html", ".xml", ".json") and isinstance(data, str):
+        data = clean_urls(data)
+    return _orig_write_text(self, data, *a, **k)
+pathlib.Path.write_text = _write_text
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "くらべてえらぶ"
 TAGLINE = "ベビー・子育て用品の型番を、同じ表でくらべる"
@@ -392,7 +405,7 @@ def write_index_and_sitemap(order):
             head(f"{c}の比較記事一覧 | {SITE}", f"{c}の型番の違いを公表値で比べた記事の一覧です。", f"category/{slug}.html") + b + FOOT, encoding="utf-8")
     urls = [""] + [f"category/{v}.html" for v in CATS.values()] + [f"{s_}.html" for s_, _ in order] + ["about.html", "privacy.html"]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    sm += "".join(f"<url><loc>{BASE}/{u}</loc><lastmod>2026-10-07</lastmod></url>\n" for u in urls) + "</urlset>\n"
+    sm += "".join(f"<url><loc>{BASE}/{u}</loc><lastmod>2026-10-08</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (ROOT / "public/sitemap.xml").write_text(sm, encoding="utf-8")
 
 
