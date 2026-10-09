@@ -393,7 +393,7 @@ article h2::before{content:counter(sec,decimal-leading-zero);font-size:13px;font
 .sbox.big{max-width:none;margin:10px 0 4px}
 .sbox.big input{font-size:16px;padding:10px 14px}
 @media (max-width:620px){.site-header .sbox{order:3;flex-basis:100%;max-width:none;margin:0}.site-header .sbox input{font-size:16px}}
-@media (max-width:620px){.site-header .logo{flex:1;min-width:0}.site-header .logo small{font-size:10.5px}}
+@media (max-width:620px){.site-header .logo{flex:1;min-width:0}.site-header .logo small{font-size:10.5px;word-break:keep-all;text-wrap:balance}}
 
 /* 同じカテゴリーでよく売れている商品 */
 .alsobuy{margin:28px 0 8px}
