@@ -241,7 +241,7 @@ def article(slug, meta, body, all_meta):
     body = body.replace('<h2 id="s1">', toc + '\n<h2 id="s1">', 1)
     top = (f'<article>\n<p class="crumb"><a href="/">トップ</a> ＞ <a href="{cat_url(meta["tag"])}">{meta["tag"]}</a></p>\n'
            f'<p class="pr-note">PR 広告(楽天アフィリエイト)のリンクを含みます</p>\n'
-           f'<h1>{meta["title"]}</h1>\n<p class="meta">公開・価格確認:{meta["date"]}</p>\n'
+           f'<h1>{meta["title"]}</h1>\n<p class="meta">公開・価格確認:{meta["date"]}{(" ／ 記事更新:" + meta["updated"]) if meta.get("updated") else ""}</p>\n'
            f'<div class="badges"><span>メーカー・販売店の公表値で比較</span><span>出典つき</span></div>\n' + eye(meta))
     writer = ('<div class="writer"><p><b>くらべてえらぶ編集部</b><br>メーカーと販売店が公表している仕様・価格を同じ基準で表にまとめています。'
               '数値には出典を付け、実際に使って試していない商品はその旨を明記しています。'
@@ -257,7 +257,7 @@ def article(slug, meta, body, all_meta):
         "@context": "https://schema.org",
         "@graph": [
             {"@type": "Article", "headline": meta["title"], "description": meta["description"],
-             "datePublished": "2026-10-07", "dateModified": "2026-10-06",
+             "datePublished": "2026-10-07", "dateModified": (re.sub(r"(\d+)年(\d+)月(\d+)日", lambda m_: f"{m_[1]}-{int(m_[2]):02d}-{int(m_[3]):02d}", meta["updated"]) if meta.get("updated") else "2026-10-06"),
              "author": {"@type": "Organization", "name": SITE + "編集部", "url": BASE + "/about.html"},
              "publisher": {"@type": "Organization", "name": SITE}, "image": og, "mainEntityOfPage": f"{BASE}/{slug}.html"},
             {"@type": "BreadcrumbList", "itemListElement": [
