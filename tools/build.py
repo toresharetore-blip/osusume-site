@@ -23,7 +23,7 @@ pathlib.Path.write_text = _write_text
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "くらべてえらぶ"
-TAGLINE = "ベビー・子育て用品の型番を、同じ表でくらべる"
+TAGLINE = "買う前に、型番の違いを同じ表でくらべる"
 BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
@@ -378,13 +378,17 @@ def write_index_and_sitemap(order):
     cards_latest = "\n".join(card_li(s_, m) for s_, m in latest[:4])
     cards_pop = "\n".join(card_li(s_, m) for s_, m in popular)
     cards = "\n".join(card_li(s_, m) for s_, m in latest)
-    body = (f'<section class="hero"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
-            f'<h1>ベビー・子育て用品を、買う前にくらべる</h1>\n<p>チャイルドシート、ベビーカー、抱っこひもなどの<strong>型番の違い</strong>と<strong>いつまで使えるか</strong>を、メーカーの公表値で同じ表に並べています。数字には出典を付けています。</p>'
+    chips_html = "".join(f'<a href="{cat_url(c)}">{c}</a>' for c in CATS)
+    body = (f'<section class="hero hero-top"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
+            f'<p class="eyebrow">型番比較サイト</p>\n'
+            f'<h1>買う前に、型番の違いを<span class="hl">同じ表</span>でくらべる</h1>\n'
+            f'<p class="lead2">ベビー用品から家電まで、幅広い商品の<strong>型番の違い</strong>を、メーカーが公表している仕様と価格で並べて比べます。どれを選ぶかの目安も書いています。数字には出典を付けています。</p>'
+            f'<div class="chips">{chips_html}</div>'
             f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
             f'<h2 class="sec-title">最新の記事</h2>\n<ul class="cards">\n{cards_latest}\n</ul>\n'
             f'<h2 class="sec-title">人気の記事</h2>\n<p class="sec-note">楽天市場でレビューが多い(よく売れている)商品をあつかった記事です。</p>\n<ul class="cards">\n{cards_pop}\n</ul>\n'
             f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>' + FILTER_JS)
-    (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "チャイルドシート・ベビーカー・抱っこひもなど、ベビー・子育て用品の型番の違いといつまで使えるかを、メーカー公表の仕様と価格で比べるサイトです。", "") + body + FOOT, encoding="utf-8")
+    (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "ベビー用品・家電など幅広い商品の型番の違いを、メーカー公表の仕様と価格を同じ表に並べて比べるサイトです。選び方の目安と出典つき。", "") + body + FOOT, encoding="utf-8")
     # サイト内検索
     idx = [{"u": f"/{s_}.html", "t": m.get("short", m["title"]), "h": m["title"], "d": m["description"], "c": m["tag"],
             "i": thumb_url(items[m["thumb"]], 128) if m.get("thumb") else "", "p": m["_pub"]} for s_, m in order]

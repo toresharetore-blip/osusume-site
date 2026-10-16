@@ -404,3 +404,25 @@ article h2::before{content:counter(sec,decimal-leading-zero);font-size:13px;font
 .alsobuy .atxt span{font-size:12px;color:var(--ink3)}
 .alsobuy .aart{font-size:12px;color:var(--blue)}
 .alsobuy .abtn{flex:none;font-size:12px;font-weight:800;color:#fff;background:#BF0000;border-radius:99px;padding:7px 12px;text-decoration:none;white-space:nowrap}
+
+/* トップのヒーロー(ひと目で伝わる見せ方) */
+.hero.hero-top{position:relative;overflow:hidden;border:none;border-radius:16px;padding:26px 22px 22px;margin-bottom:20px;background:linear-gradient(135deg,#EAF0F8 0%,#FFFFFF 58%,#E6F3EF 100%);box-shadow:0 6px 24px rgba(34,64,106,.10)}
+.hero.hero-top::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(15,123,101,.18),rgba(15,123,101,0) 70%);pointer-events:none}
+.hero-top .eyebrow{display:inline-block;margin:0 0 10px;padding:3px 10px;border-radius:999px;background:var(--navy);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.08em}
+.hero-top h1{font-size:26px;line-height:1.35;margin:0 0 12px;color:var(--navy);letter-spacing:.01em}
+.hero-top h1 .hl{background:linear-gradient(transparent 58%,var(--point) 58%);padding:0 2px}
+.hero-top .lead2{font-size:15px;line-height:1.85;color:var(--ink2);max-width:40em}
+.hero-top .chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
+.hero-top .chips a{display:inline-block;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--navy);font-size:13px;font-weight:700;text-decoration:none;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.hero-top .chips a:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.hero-top .stats{gap:12px;margin-top:18px}
+.hero-top .stats div{flex:1;min-width:110px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:center;font-size:12px;color:var(--ink3);box-shadow:0 2px 8px rgba(34,64,106,.06)}
+.hero-top .stats b{font-size:22px;color:var(--accent);font-weight:800}
+.hero-top .pr-note{background:transparent;border:none;padding:0;margin-bottom:10px;font-size:11.5px}
+@media (max-width:620px){
+  .hero.hero-top{padding:20px 16px 16px;border-radius:14px}
+  .hero-top h1{font-size:22px}
+  .hero-top .lead2{font-size:14px}
+  .hero-top .stats div{min-width:0;padding:8px 6px}
+  .hero-top .stats b{font-size:18px}
+}
