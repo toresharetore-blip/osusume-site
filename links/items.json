@@ -800,5 +800,35 @@
    "コンビ公式店"
   ],
   "reviews": 0
+ },
+ "MERRIES-FP-TAPE4": {
+  "id": "5846c80f.ccba5558.5846c810.d7f6889a",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fnetbaby%2F404201%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c80f.ccba5558.5846c810.d7f6889a/?me_id=1212232&item_id=10027996&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fnetbaby%2Fcabinet%2F201%2F404201.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "メリーズ ファーストプレミアム テープ(4個・サイズを選べる)",
+  "price": "価格：6,985円（税込、送料別)",
+  "date": "(2026/10/18時点)",
+  "short": "メリーズ ファーストプレミアム テープ 4個",
+  "chips": [
+   "Mなら192枚",
+   "1枚約36円",
+   "カシミヤタッチ"
+  ],
+  "reviews": 2040
+ },
+ "MERRIES-AIR-TAPE4": {
+  "id": "5846c80f.ccba5558.5846c810.d7f6889a",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fnetbaby%2Fa62169xxx%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c80f.ccba5558.5846c810.d7f6889a/?me_id=1212232&item_id=10019343&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fnetbaby%2Fcabinet%2F076%2F402076.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "メリーズ ずっと肌さらエアスルー テープ(4個・サイズを選べる)",
+  "price": "価格：7,373円（税込、送料別)",
+  "date": "(2026/10/18時点)",
+  "short": "メリーズ エアスルー テープ 4個",
+  "chips": [
+   "Mなら208枚",
+   "1枚約35円",
+   "通気シート"
+  ],
+  "reviews": 2203
  }
 }
