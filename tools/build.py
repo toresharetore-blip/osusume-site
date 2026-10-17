@@ -28,10 +28,10 @@ BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
 
-CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier", "ベビーカー": "stroller", "ベビーラック": "babyrack", "マグ・食器": "mug", "おむつ": "omutsu"}
+CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier", "ベビーカー": "stroller", "ベビーラック": "babyrack", "マグ・食器": "mug", "おむつ": "omutsu", "授乳・哺乳びん": "feeding"}
 
 
-GROUPS = [("ベビー・キッズ", ["チャイルドシート", "ベビーカー", "抱っこひも", "ベビーラック", "マグ・食器", "おむつ"]),
+GROUPS = [("ベビー・キッズ", ["チャイルドシート", "ベビーカー", "抱っこひも", "ベビーラック", "マグ・食器", "おむつ", "授乳・哺乳びん"]),
           ("家電", ["加湿器", "ふとん乾燥機", "ドライヤー", "衣類スチーマー"])]
 for _c in CATS:
     if not any(_c in g for _, g in GROUPS):
@@ -320,7 +320,8 @@ ICONS = {"加湿器": ICON_SVG('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6
          "ベビーカー": ICON_SVG('<path d="M4 6h3l2 8h9l2-6H8"/><circle cx="9" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>', "#2A8C8C"),
          "ベビーラック": ICON_SVG('<path d="M5 20l3-6h8l3 6M8 14V7a4 4 0 0 1 8 0v7"/>', "#C77D2E"),
          "マグ・食器": ICON_SVG('<path d="M6 8h10v9a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3zM16 10h2a2 2 0 0 1 0 4h-2M11 8V3"/>', "#3B8FB5"),
-         "おむつ": ICON_SVG('<path d="M3 7h18v3c0 6-4 10-9 10S3 16 3 10z"/><path d="M3 10h4M17 10h4"/>', "#5A9BD5")}
+         "おむつ": ICON_SVG('<path d="M3 7h18v3c0 6-4 10-9 10S3 16 3 10z"/><path d="M3 10h4M17 10h4"/>', "#5A9BD5"),
+         "授乳・哺乳びん": ICON_SVG('<path d="M9 3h6M10 3v3l-2 3v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9l-2-3V3M8 13h8"/>', "#E08A3C")}
 
 
 def feature_and_cats(order):
