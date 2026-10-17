@@ -665,13 +665,13 @@
   "img": "https://hbb.afl.rakuten.co.jp/hgb/58451b70.2d664a13.58451b71.4ae31423/?me_id=1418189&item_id=10000390&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fcombi%2Fcabinet%2Fthum%2Fmag%2Fimgrc0100792659.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
   "name": "コンビ ラクマグ ステンレス 漏れないストロー R",
   "price": "価格：3,938円～（税込、送料無料)",
-  "date": "(2026/10/7時点)",
+  "date": "(2026/10/17時点)",
   "short": "コンビ ラクマグ ステンレス 漏れないストロー R",
   "chips": [
-   "6か月頃から",
-   "保冷",
-   "mini/large",
-   "レビュー38件"
+   "mini 180mL・192g",
+   "large 370mL・256g",
+   "保冷専用",
+   "本体も食洗機OK"
   ],
   "reviews": 38
  },
@@ -704,5 +704,21 @@
    "360°ゆるうんちモレガード"
   ],
   "reviews": 3973
+ },
+ "THERMOS-FJT-350": {
+  "id": "588f9832.0be8f719.588f9833.e983f422",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Flivingut%2F459330%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/588f9832.0be8f719.588f9833.e983f422/?me_id=1222208&item_id=10206363&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Flivingut%2Fcabinet%2Fmaker_thermos13%2F459330.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "サーモス まほうびんのベビーストローマグ FJT-350",
+  "price": "価格：3,980円（税込、送料別)",
+  "date": "(2026/10/17時点)",
+  "short": "サーモス まほうびんのベビーストローマグ FJT-350",
+  "chips": [
+   "350mL",
+   "約0.2kg",
+   "保冷専用",
+   "本体は手洗い"
+  ],
+  "reviews": 97
  }
 }

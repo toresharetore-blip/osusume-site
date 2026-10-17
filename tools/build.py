@@ -208,6 +208,11 @@ def also_items(slug, meta, body):
             f'<p class="sec-note">楽天市場でレビューが多い順です。それぞれの比較記事もあります。</p>{rows}</section>')
 
 
+def _iso(jp):
+    m_ = re.search(r"(\d+)年(\d+)月(\d+)日", jp or "")
+    return f"{m_[1]}-{int(m_[2]):02d}-{int(m_[3]):02d}" if m_ else None
+
+
 def article(slug, meta, body, all_meta):
     alsobuy = also_items(slug, meta, body)
     first_card = (re.findall(r"\{\{CARD:([^}]+)\}\}", body) or [None])[0]
@@ -257,7 +262,7 @@ def article(slug, meta, body, all_meta):
         "@context": "https://schema.org",
         "@graph": [
             {"@type": "Article", "headline": meta["title"], "description": meta["description"],
-             "datePublished": "2026-10-07", "dateModified": (re.sub(r"(\d+)年(\d+)月(\d+)日", lambda m_: f"{m_[1]}-{int(m_[2]):02d}-{int(m_[3]):02d}", meta["updated"]) if meta.get("updated") else "2026-10-06"),
+             "datePublished": _iso(meta["date"]), "dateModified": _iso(meta.get("updated") or meta["date"]),
              "author": {"@type": "Organization", "name": SITE + "編集部", "url": BASE + "/about.html"},
              "publisher": {"@type": "Organization", "name": SITE}, "image": og, "mainEntityOfPage": f"{BASE}/{slug}.html"},
             {"@type": "BreadcrumbList", "itemListElement": [
