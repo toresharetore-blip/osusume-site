@@ -720,5 +720,53 @@
    "本体は手洗い"
   ],
   "reviews": 97
+ },
+ "BB-BLISS": {
+  "id": "5894c1ca.edd401be.5894c1cb.9a77fe0c",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabybjorn%2Fbouncer-bliss%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5894c1ca.edd401be.5894c1cb.9a77fe0c/?me_id=1406218&item_id=10000006&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabybjorn%2Fcabinet%2Fwhole%2Fthumbnail01%2F2.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "ベビービョルン バウンサー Bliss(ブリス)",
+  "price": "価格：22,275円～（税込、送料無料)",
+  "date": "(2026/10/18時点)",
+  "short": "ベビービョルン バウンサー ブリス",
+  "chips": [
+   "1か月〜2才頃",
+   "約2.1kg",
+   "イスにもなる",
+   "公式店"
+  ],
+  "reviews": 604
+ },
+ "BB-BALANCESOFT": {
+  "id": "5894c1ca.edd401be.5894c1cb.9a77fe0c",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabybjorn%2Fbouncer-balance-soft%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5894c1ca.edd401be.5894c1cb.9a77fe0c/?me_id=1406218&item_id=10000013&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabybjorn%2Fcabinet%2Fwhole%2Fthumbnail01%2Fimgrc0178469806.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "ベビービョルン バウンサー バランスソフト",
+  "price": "価格：23,760円～（税込、送料無料)",
+  "date": "(2026/10/18時点)",
+  "short": "ベビービョルン バウンサー バランスソフト",
+  "chips": [
+   "1か月〜2才頃",
+   "約2.1kg",
+   "イスにもなる",
+   "公式店"
+  ],
+  "reviews": 64
+ },
+ "BB-BEGIN": {
+  "id": "5894c1ca.edd401be.5894c1cb.9a77fe0c",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabybjorn%2Fbouncer-begin%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5894c1ca.edd401be.5894c1cb.9a77fe0c/?me_id=1406218&item_id=10000095&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_gold%2Fbabybjorn%2Fbb-gallery%2Fbouncer-begin_thumb_01.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "ベビービョルン バウンサー Begin(ビギン)",
+  "price": "価格：27,500円（税込、送料無料)",
+  "date": "(2026/10/18時点)",
+  "short": "ベビービョルン バウンサー ビギン",
+  "chips": [
+   "2.8kg〜9kg",
+   "約2.2kg",
+   "新生児向け",
+   "公式店"
+  ],
+  "reviews": 0
  }
 }
