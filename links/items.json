@@ -988,5 +988,37 @@
    "レビュー123件"
   ],
   "reviews": 123
+ },
+ "RICHELL-FUKAFUKA-PLUSK": {
+  "id": "58a1a840.04afedd8.58a1a841.e313aa88",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Frichell%2F120392%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58a1a840.04afedd8.58a1a841.e313aa88/?me_id=1271797&item_id=10012844&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Frichell%2Fcabinet%2Frichell2%2F120392.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "リッチェル ふかふか ベビーバスプラスK",
+  "price": "価格：5,170円（税込、送料無料)",
+  "date": "(2026/10/19時点)",
+  "short": "リッチェル ふかふか ベビーバスプラスK",
+  "chips": [
+   "新生児〜6カ月頃",
+   "エアポンプ内蔵",
+   "抗菌防カビ剤入",
+   "公式店"
+  ],
+  "reviews": 12
+ },
+ "RICHELL-FUKAFUKA-STEPUP": {
+  "id": "58a1a840.04afedd8.58a1a841.e313aa88",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Frichell%2F120396%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58a1a840.04afedd8.58a1a841.e313aa88/?me_id=1271797&item_id=10012878&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Frichell%2Fcabinet%2Frichell2%2F120396.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "リッチェル ふかふか ベビーバス ステップアップ",
+  "price": "価格：5,720円（税込、送料別)",
+  "date": "(2026/10/19時点)",
+  "short": "リッチェル ふかふか ベビーバス ステップアップ",
+  "chips": [
+   "新生児〜12カ月頃",
+   "バスチェアにもなる",
+   "エアポンプ内蔵",
+   "公式店"
+  ],
+  "reviews": 13
  }
 }
