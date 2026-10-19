@@ -426,3 +426,8 @@ article h2::before{content:counter(sec,decimal-leading-zero);font-size:13px;font
   .hero-top .stats div{min-width:0;padding:8px 6px}
   .hero-top .stats b{font-size:18px}
 }
+
+/* よくある質問 */
+.faq h3{margin:22px 0 4px;font-size:16.5px;padding-left:32px}
+.faq h3::before{content:"Q";left:0;top:.1em;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:800;line-height:22px;text-align:center}
+.faq p{margin:0 0 6px;padding-left:32px}

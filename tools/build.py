@@ -235,6 +235,11 @@ def article(slug, meta, body, all_meta):
             return '<p class="scroll-hint">表は横にスクロールできます →</p>' + m.group(0).replace("<table>", '<table class="wide">', 1)
         return m.group(0)
     body = re.sub(r'<div class="table-wrap"><table>.*?</table></div>', hint, body, flags=re.S)
+    faq = meta.get("faq") or []
+    if faq:
+        faq_html = ('<h2>よくある質問</h2>\n<div class="faq">' +
+                    "".join(f'<h3>{x["q"]}</h3>\n<p>{x["a"]}</p>\n' for x in faq) + '</div>\n')
+        body = body.replace("<h2>出典</h2>", faq_html + "<h2>出典</h2>", 1) if "<h2>出典</h2>" in body else body + faq_html
     heads = []
 
     def add_id(m):
@@ -258,7 +263,7 @@ def article(slug, meta, body, all_meta):
     related = ('<section class="related"><h2 class="sec-title">あわせて読みたい</h2><ul class="cards">' +
                "".join(card_li(s_, m) for s_, m in rel) + "</ul></section>") if rel else ""
     og = thumb_url(items[meta["thumb"]], 240) if meta.get("thumb") else None
-    jsonld = json.dumps({
+    jsonld_obj = {
         "@context": "https://schema.org",
         "@graph": [
             {"@type": "Article", "headline": meta["title"], "description": meta["description"],
@@ -268,7 +273,17 @@ def article(slug, meta, body, all_meta):
             {"@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "トップ", "item": BASE + "/"},
                 {"@type": "ListItem", "position": 2, "name": meta["tag"], "item": BASE + cat_url(meta["tag"])},
-                {"@type": "ListItem", "position": 3, "name": meta.get("short", meta["title"])}]}]}, ensure_ascii=False)
+                {"@type": "ListItem", "position": 3, "name": meta.get("short", meta["title"])}]}]}
+    graph = jsonld_obj["@graph"]
+    cmp_keys = [k for k in (meta.get("eye", {}).get("items") or []) if k in items]
+    if cmp_keys:
+        graph.append({"@type": "ItemList", "name": "この記事で比べている商品",
+                      "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": items[k]["name"]} for i, k in enumerate(cmp_keys)]})
+    if faq:
+        graph.append({"@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": re.sub("<[^>]+>", "", x["q"]),
+             "acceptedAnswer": {"@type": "Answer", "text": re.sub("<[^>]+>", "", x["a"])}} for x in faq]})
+    jsonld = json.dumps(jsonld_obj, ensure_ascii=False)
     return (head(f'{meta["title"]} | {SITE}', meta["description"], f"{slug}.html", og, jsonld)
             + top + (body.replace('<h2 id="s' + str(len(heads)) + '">出典', alsobuy + '<h2 id="s' + str(len(heads)) + '">出典', 1) if alsobuy and ('<h2 id="s' + str(len(heads)) + '">出典') in body else body + alsobuy) + writer + "\n</article>" + related + FOOT)
 
@@ -396,7 +411,11 @@ def write_index_and_sitemap(order):
             f'<h2 class="sec-title">最新の記事</h2>\n<ul class="cards">\n{cards_latest}\n</ul>\n'
             f'<h2 class="sec-title">人気の記事</h2>\n<p class="sec-note">楽天市場でレビューが多い(よく売れている)商品をあつかった記事です。</p>\n<ul class="cards">\n{cards_pop}\n</ul>\n'
             f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>' + FILTER_JS)
-    (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "ベビー用品・家電など幅広い商品の型番の違いを、メーカー公表の仕様と価格を同じ表に並べて比べるサイトです。選び方の目安と出典つき。", "") + body + FOOT, encoding="utf-8")
+    site_ld = json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "name": SITE, "url": BASE + "/", "inLanguage": "ja", "description": TAGLINE,
+         "potentialAction": {"@type": "SearchAction", "target": BASE + "/search?q={search_term_string}", "query-input": "required name=search_term_string"}},
+        {"@type": "Organization", "name": SITE + "編集部", "url": BASE + "/about"}]}, ensure_ascii=False)
+    (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "ベビー用品・家電など幅広い商品の型番の違いを、メーカー公表の仕様と価格を同じ表に並べて比べるサイトです。選び方の目安と出典つき。", "", None, site_ld) + body + FOOT, encoding="utf-8")
     # サイト内検索
     idx = [{"u": f"/{s_}.html", "t": m.get("short", m["title"]), "h": m["title"], "d": m["description"], "c": m["tag"],
             "i": thumb_url(items[m["thumb"]], 128) if m.get("thumb") else "", "p": m["_pub"]} for s_, m in order]
@@ -415,10 +434,25 @@ def write_index_and_sitemap(order):
              f'<ul class="cards" id="list">\n{cards_c}\n</ul>')
         (ROOT / "public/category" / f"{slug}.html").write_text(
             head(f"{c}の比較記事一覧 | {SITE}", f"{c}の型番の違いを公表値で比べた記事の一覧です。", f"category/{slug}.html") + b + FOOT, encoding="utf-8")
+    mod = {f"{s_}.html": _iso(m.get("updated") or m["date"]) for s_, m in order}
+    allmax = max(mod.values())
+    for c, slug in CATS.items():
+        ds = [_iso(m.get("updated") or m["date"]) for _, m in order if m["tag"] == c]
+        mod[f"category/{slug}.html"] = max(ds) if ds else allmax
+    mod[""] = allmax
+    mod["about.html"] = mod["privacy.html"] = "2026-10-08"
     urls = [""] + [f"category/{v}.html" for v in CATS.values()] + [f"{s_}.html" for s_, _ in order] + ["about.html", "privacy.html"]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    sm += "".join(f"<url><loc>{BASE}/{u}</loc><lastmod>2026-10-08</lastmod></url>\n" for u in urls) + "</urlset>\n"
+    sm += "".join(f"<url><loc>{BASE}/{u}</loc><lastmod>{mod[u]}</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (ROOT / "public/sitemap.xml").write_text(sm, encoding="utf-8")
+    ll = [f"# {SITE}", "", f"> {TAGLINE}。ベビー用品・家電の型番の違いを、メーカーと販売店が公表している仕様・価格で同じ表に並べて比べるサイトです。"
+          "各記事の冒頭に結論、本文に出典、価格には確認日を載せています。商品リンクは楽天アフィリエイトで、記事内にPR表記があります。", ""]
+    for g, cs in GROUPS:
+        for c in cs:
+            lst = [(s_, m) for s_, m in order if m["tag"] == c]
+            if lst:
+                ll += [f"## {c}", ""] + [f"- [{m.get('short', m['title'])}]({BASE}/{s_}): {m['description']}" for s_, m in lst] + [""]
+    (ROOT / "public/llms.txt").write_text("\n".join(ll), encoding="utf-8")
 
 
 if __name__ == "__main__":
