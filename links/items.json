@@ -1020,5 +1020,36 @@
    "公式店"
   ],
   "reviews": 13
+ },
+ "APRICA-CURURILA-XPLUS-AC": {
+  "id": "58975f78.898f60eb.58975f79.4edc3e35",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Faprica-shop%2Fapr6283%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58975f78.898f60eb.58975f79.4edc3e35/?me_id=1438186&item_id=10000084&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Faprica-shop%2Fcabinet%2Fspr%2F5%2F539103113301_4.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "アップリカ クルリラ エックス プラス AC(2026年モデル)",
+  "price": "価格：79,750円（税込、送料無料)",
+  "date": "(2026/10/20時点)",
+  "short": "アップリカ クルリラ エックス プラス AC",
+  "chips": [
+   "新生児〜105cm",
+   "フラップ付きシェード",
+   "ウェルカムバックル",
+   "公式店"
+  ],
+  "reviews": 32
+ },
+ "APRICA-CURURILA-XPLUS-AB": {
+  "id": "5846c422.490840bd.5846c423.80131810",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Forange-baby%2F4969220010403%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c422.490840bd.5846c423.80131810/?me_id=1201017&item_id=10043727&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Forange-baby%2Fcabinet%2Fbiiino%2Fitem%2Fmain-image-8%2F49692200112cxpx.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "アップリカ クルリラ エックス プラス AB(2025年モデル)",
+  "price": "価格：72,000円（税込、送料別)",
+  "date": "(2026/10/20時点)",
+  "short": "アップリカ クルリラ エックス プラス AB",
+  "chips": [
+   "新生児〜105cm",
+   "本体はACと同じ",
+   "楽天で7,750円安い"
+  ],
+  "reviews": 28
  }
 }
