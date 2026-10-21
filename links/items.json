@@ -711,7 +711,7 @@
   "img": "https://hbb.afl.rakuten.co.jp/hgb/588f9832.0be8f719.588f9833.e983f422/?me_id=1222208&item_id=10206363&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Flivingut%2Fcabinet%2Fmaker_thermos13%2F459330.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
   "name": "サーモス まほうびんのベビーストローマグ FJT-350",
   "price": "価格：3,980円（税込、送料別)",
-  "date": "(2026/10/17時点)",
+  "date": "(2026/10/21時点)",
   "short": "サーモス まほうびんのベビーストローマグ FJT-350",
   "chips": [
    "350mL",
@@ -1051,5 +1051,36 @@
    "楽天で7,750円安い"
   ],
   "reviews": 28
+ },
+ "THERMOS-FJL-350": {
+  "id": "58af788a.2fe1ee74.58af788b.a0a02577",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fthermos-shop%2Fr4562344378383%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58af788a.2fe1ee74.58af788b.a0a02577/?me_id=1399229&item_id=10000598&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fthermos-shop%2Fcabinet%2Fthermos_prd%2F83%2Fr4562344378383_1.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "【公式 アウトレット】サーモス まほうびんのベビーストローマグ 350ml FJL-350 保冷専用",
+  "price": "価格：3,278円（税込、送料別)",
+  "date": "(2026/10/21時点)",
+  "short": "サーモス まほうびんのベビーストローマグ FJL-350(公式アウトレット)",
+  "chips": [
+   "350mL",
+   "旧モデル",
+   "パッキン別体",
+   "送料550円"
+  ],
+  "reviews": 8
+ },
+ "THERMOS-FJL-350-CAP": {
+  "id": "58af7963.04599517.58af796e.11bc1880",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fcolorfulbox%2F350763%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58af7963.04599517.58af796e.11bc1880/?me_id=1309659&item_id=10110737&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fcolorfulbox%2Fcabinet%2Fmaker_thermos5%2F350763.jpg%3F_ex%3D128x128&s=128x128&t=picttext",
+  "name": "キャップユニット ストローセット パッキン ストローマグ FJL-350 サーモス THERMOS",
+  "price": "価格：770円（税込、送料別)",
+  "date": "(2026/10/21時点)",
+  "short": "サーモス FJL-350 ストローキャップユニット(交換部品)",
+  "chips": [
+   "FJL-350用",
+   "キャップユニット",
+   "飲み口・ストロー・パッキン付き"
+  ],
+  "reviews": 40
  }
 }
