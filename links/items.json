@@ -1697,5 +1697,35 @@
    "麺がすべりにくい溝"
   ],
   "reviews": 87
+ },
+ "MILKPON-S60": {
+  "id": "5846c80f.ccba5558.5846c810.d7f6889a",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fnetbaby%2F4902508121019%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c80f.ccba5558.5846c810.d7f6889a/?me_id=1212232&item_id=10037087&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fnetbaby%2Fcabinet%2F019%2F4902508121019.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "ピジョン 哺乳びん除菌料 ミルクポンS(60包入)【ミルクポン】",
+  "price": "価格：1,976円（税込、送料無料)",
+  "date": "(2026/10/24時点)",
+  "short": "ピジョン ミルクポンS(60包)",
+  "chips": [
+   "すすぎ不要",
+   "1包で水2〜4L",
+   "さく乳器にも"
+  ],
+  "reviews": 43
+ },
+ "MILKPON-W40": {
+  "id": "58c784f8.7f9263b5.58c784f9.25d2affc",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Frakutensokuhaimart%2F4902508121637%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58c784f8.7f9263b5.58c784f9.25d2affc/?me_id=1421663&item_id=10022595&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Frakutensokuhaimart%2Fcabinet%2Frakuten24%2F637%2F4902508121637.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "ピジョン 洗える除菌料 ミルクポンW 40包入 【ミルクポン】 授乳用品",
+  "price": "価格：1,287円（税込、送料別)",
+  "date": "(2026/10/24時点)",
+  "short": "ピジョン ミルクポンW(40包)",
+  "chips": [
+   "洗浄成分入り",
+   "こすらずOK",
+   "使う前にすすぐ"
+  ],
+  "reviews": 4
  }
 }
