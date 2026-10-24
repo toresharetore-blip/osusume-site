@@ -84,3 +84,33 @@ def minirow(d, article_url):
             f'<div class="atxt"><a class="aname" href="{base}" {a}>{d["short"]}</a><span>楽天市場 {price}〜{rv}</span>'
             f'<a class="aart" href="{article_url}">この商品の比較記事を読む</a></div>'
             f'<a class="abtn" href="{base}" {a}>楽天で見る</a></div>')
+
+
+def _yen(d):
+    import re as _re
+    m = _re.match(r"価格：([\d,]+)円", d["price"])
+    return int(m.group(1).replace(",", "")) if m else None
+
+
+def pricebox(ds, pick=None, names=None):
+    """結論のすぐ下に置く「比べた商品の楽天価格」。安い順に全商品を同じ扱いで並べ、読者が自分で選べるようにする。"""
+    a = 'target="_blank" rel="nofollow sponsored noopener"'
+    rows = sorted(ds, key=lambda kd: (_yen(kd[1]) is None, _yen(kd[1]) or 0))
+    out = []
+    for i, (k, d) in enumerate(rows):
+        base = f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT}%3D%3D"
+        y = _yen(d)
+        price = f"{y:,}円{'〜' if '～' in d['price'] or '〜' in d['price'] else ''}" if y else ""
+        tags = ""
+        if i == 0 and len(rows) > 1:
+            tags += '<em class="t-cheap">いちばん安い</em>'
+        if k == pick and len(rows) > 1:
+            tags += '<em class="t-pick">記事のおすすめ</em>'
+        rv = f'・レビュー{d["reviews"]:,}件' if d.get("reviews") else ""
+        nm = (names or {}).get(k)
+        label = d["short"]
+        out.append(f'<a class="prow" href="{base}" {a}><img src="{thumb_url(d, 128)}" alt="" width="56" height="56" loading="lazy">'
+                   f'<span class="ptxt"><span class="ptags">{tags}</span><b>{label}</b><span>楽天市場 <strong>{price}</strong>{d["date"]}{rv}</span></span>'
+                   f'<span class="pgo">楽天で見る</span></a>')
+    return ('<div class="pricebox"><p class="plabel">この記事で比べた商品の楽天価格(安い順)</p>' + "".join(out) +
+            '<p class="pnote">価格は確認日時点。最新の価格・在庫は販売ページで確認してください。</p></div>')

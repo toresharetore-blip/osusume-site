@@ -28,10 +28,10 @@ BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
 
-CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier", "ベビーカー": "stroller", "ベビーラック": "babyrack", "マグ・食器": "mug", "おむつ": "omutsu", "授乳・哺乳びん": "feeding", "トイレトレーニング": "toilet", "おふろ": "bath"}
+CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier", "ベビーカー": "stroller", "ベビーラック": "babyrack", "マグ・食器": "mug", "おむつ": "omutsu", "授乳・哺乳びん": "feeding", "トイレトレーニング": "toilet", "おふろ": "bath", "おくるみ・スリーパー": "swaddle", "鼻水吸引器": "hanamizu", "ベビーチェア": "babychair"}
 
 
-GROUPS = [("ベビー・キッズ", ["チャイルドシート", "ベビーカー", "抱っこひも", "ベビーラック", "マグ・食器", "おむつ", "授乳・哺乳びん", "トイレトレーニング", "おふろ"]),
+GROUPS = [("ベビー・キッズ", ["チャイルドシート", "ベビーカー", "抱っこひも", "ベビーラック", "マグ・食器", "おむつ", "授乳・哺乳びん", "トイレトレーニング", "おふろ", "おくるみ・スリーパー", "鼻水吸引器", "ベビーチェア"]),
           ("家電", ["加湿器", "ふとん乾燥機", "ドライヤー", "衣類スチーマー"])]
 for _c in CATS:
     if not any(_c in g for _, g in GROUPS):
@@ -213,6 +213,29 @@ def _iso(jp):
     return f"{m_[1]}-{int(m_[2]):02d}-{int(m_[3]):02d}" if m_ else None
 
 
+def _plain(h):
+    return re.sub(r"\s+", " ", re.sub("<[^>]+>", "", h.replace("<br>", ""))).strip()
+
+
+def auto_faq(meta, body, cmp_keys):
+    """FAQ未設定の記事に、本文の結論と確認済みの価格だけで作るFAQ(新しい事実は足さない)"""
+    out = []
+    m = re.search(r'<div class="answer"><p>(.*?)</p></div>', body, re.S)
+    q = re.split(r"[？?]", meta["title"])[0]
+    if m and q != meta["title"]:
+        out.append({"q": q + "？", "a": _plain(m.group(1))})
+    if cmp_keys:
+        from rlink import _yen
+        ps = []
+        for k in cmp_keys:
+            d = items[k]
+            if _yen(d):
+                ps.append(f'{d["short"]}が{_yen(d):,}円{"〜" if ("～" in d["price"] or "〜" in d["price"]) else ""}{d["date"]}')
+        if ps:
+            out.append({"q": "楽天市場での価格は？", "a": "、".join(ps) + "でした。価格は変わることがあるので、販売ページで確認してください。"})
+    return out
+
+
 def article(slug, meta, body, all_meta):
     alsobuy = also_items(slug, meta, body)
     first_card = (re.findall(r"\{\{CARD:([^}]+)\}\}", body) or [None])[0]
@@ -225,9 +248,14 @@ def article(slug, meta, body, all_meta):
     body = re.sub(r"\{\{LINK:([^}]+)\}\}", link, body)
     assert "{{" not in body, slug
     body = re.sub(r'<p class="lead">(.*?)</p>', r'<div class="answer"><p>\1</p></div>', body, count=1, flags=re.S)
-    if pick and pick in items:
-        from rlink import minicard
-        body = body.replace('</div>', '</div>\n' + minicard(items[pick]), 1) if body.startswith('<div class="answer">') else body
+    cmp_keys = [k for k in (meta.get("eye", {}).get("items") or []) if k in items]
+    if body.startswith('<div class="answer">'):
+        if cmp_keys:
+            from rlink import pricebox
+            body = body.replace('</div>', '</div>\n' + pricebox([(k, items[k]) for k in cmp_keys], meta.get("pick"), meta.get("eye", {}).get("names")), 1)
+        elif pick and pick in items:
+            from rlink import minicard
+            body = body.replace('</div>', '</div>\n' + minicard(items[pick]), 1)
 
     def hint(m):
         first_row = re.search(r"<tr>(.*?)</tr>", m.group(0), re.S).group(1)
@@ -235,7 +263,7 @@ def article(slug, meta, body, all_meta):
             return '<p class="scroll-hint">表は横にスクロールできます →</p>' + m.group(0).replace("<table>", '<table class="wide">', 1)
         return m.group(0)
     body = re.sub(r'<div class="table-wrap"><table>.*?</table></div>', hint, body, flags=re.S)
-    faq = meta.get("faq") or []
+    faq = list(meta.get("faq") or []) or auto_faq(meta, body, cmp_keys)
     if faq:
         faq_html = ('<h2>よくある質問</h2>\n<div class="faq">' +
                     "".join(f'<h3>{x["q"]}</h3>\n<p>{x["a"]}</p>\n' for x in faq) + '</div>\n')
@@ -275,10 +303,19 @@ def article(slug, meta, body, all_meta):
                 {"@type": "ListItem", "position": 2, "name": meta["tag"], "item": BASE + cat_url(meta["tag"])},
                 {"@type": "ListItem", "position": 3, "name": meta.get("short", meta["title"])}]}]}
     graph = jsonld_obj["@graph"]
-    cmp_keys = [k for k in (meta.get("eye", {}).get("items") or []) if k in items]
     if cmp_keys:
+        from rlink import _yen, UT
+        def _prod(k):
+            d = items[k]
+            p = {"@type": "Product", "name": d["short"],
+                 "url": f"https://hb.afl.rakuten.co.jp/ichiba/{d['id']}/?pc={d['pc']}&link_type=picttext&ut={UT}%3D%3D",
+                 "image": thumb_url(d, 240)}
+            if _yen(d):
+                p["offers"] = {"@type": "Offer", "price": _yen(d), "priceCurrency": "JPY", "seller": {"@type": "Organization", "name": "楽天市場"},
+                               "url": p["url"]}
+            return p
         graph.append({"@type": "ItemList", "name": "この記事で比べている商品",
-                      "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": items[k]["name"]} for i, k in enumerate(cmp_keys)]})
+                      "itemListElement": [{"@type": "ListItem", "position": i + 1, "item": _prod(k)} for i, k in enumerate(cmp_keys)]})
     if faq:
         graph.append({"@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": re.sub("<[^>]+>", "", x["q"]),
@@ -338,7 +375,10 @@ ICONS = {"加湿器": ICON_SVG('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6
          "おむつ": ICON_SVG('<path d="M3 7h18v3c0 6-4 10-9 10S3 16 3 10z"/><path d="M3 10h4M17 10h4"/>', "#5A9BD5"),
          "授乳・哺乳びん": ICON_SVG('<path d="M9 3h6M10 3v3l-2 3v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9l-2-3V3M8 13h8"/>', "#E08A3C"),
          "トイレトレーニング": ICON_SVG('<path d="M6 4h8v6H6zM5 10h14a7 7 0 0 1-7 7h0a7 7 0 0 1-7-7zM10 17v3h4v-3"/>', "#4FA3A5"),
-         "おふろ": ICON_SVG('<path d="M4 12h16v2a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6zM6 12V6a2 2 0 0 1 4 0M7 20l-1 2M17 20l1 2"/>', "#4A90C2")}
+         "おふろ": ICON_SVG('<path d="M4 12h16v2a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6zM6 12V6a2 2 0 0 1 4 0M7 20l-1 2M17 20l1 2"/>', "#4A90C2"),
+         "おくるみ・スリーパー": ICON_SVG('<circle cx="12" cy="6" r="3"/><path d="M7 11c0-1 2-2 5-2s5 1 5 2l-1 9H8z"/>', "#C2689A"),
+         "鼻水吸引器": ICON_SVG('<path d="M9 3h6v4l2 2v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9l2-2zM12 7v6"/>', "#3E9C6B"),
+         "ベビーチェア": ICON_SVG('<path d="M7 3v18M17 3v18M7 9h10M7 14h10M5 21h4M15 21h4"/>', "#A0703A")}
 
 
 def feature_and_cats(order):
@@ -451,7 +491,13 @@ def write_index_and_sitemap(order):
         for c in cs:
             lst = [(s_, m) for s_, m in order if m["tag"] == c]
             if lst:
-                ll += [f"## {c}", ""] + [f"- [{m.get('short', m['title'])}]({BASE}/{s_}): {m['description']}" for s_, m in lst] + [""]
+                ll += [f"## {c}", ""]
+                for s_, m in lst:
+                    ll.append(f"- [{m.get('short', m['title'])}]({BASE}/{s_}): {m['description']}")
+                    pr = [items[k] for k in (m.get("eye", {}).get("items") or []) if k in items]
+                    if pr:
+                        ll.append("  - 楽天市場の価格: " + " ／ ".join(f"{d['short']} {d['price'].replace('価格：', '')}{d['date']}" for d in pr))
+                ll.append("")
     (ROOT / "public/llms.txt").write_text("\n".join(ll), encoding="utf-8")
 
 
