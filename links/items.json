@@ -1650,5 +1650,52 @@
    "2020年発売"
   ],
   "reviews": 306
+ },
+ "EDISON-FS-BABY": {
+  "id": "58c7793b.f5dfc77e.58c7793c.1c4b6a87",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fmylittlebaby%2Fkj280195%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58c7793b.f5dfc77e.58c7793c.1c4b6a87/?me_id=1423566&item_id=10000231&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fmylittlebaby%2Fcabinet%2Fitem%2Fkj280195%2Fkj280195-1.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "【公式】 EDISONmama [エジソンママ] フォーク&スプーン Baby パステルカラー ケース付 [9ヶ月ごろ〜]",
+  "price": "価格：682円（税込、送料別)",
+  "date": "(2026/10/24時点)",
+  "short": "エジソンママ フォーク&スプーン Baby(公式)",
+  "chips": [
+   "9か月頃〜",
+   "角度付き",
+   "プラスチック製",
+   "ケース付"
+  ],
+  "reviews": 2
+ },
+ "EDISON-FS-PETIT": {
+  "id": "58c77915.4e47ee0f.58c77916.47c71f05",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fe-edison%2Fpuchi-fs%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58c77915.4e47ee0f.58c77916.47c71f05/?me_id=1349621&item_id=10000681&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fe-edison%2Fcabinet%2Fother%2Ffs100%2Fchoice.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "EDISONmama エジソンママ フォークスプーン【プチ】専用カバー付き ステンレス製 子ども用フォークスプーン",
+  "price": "価格：870円（税込、送料無料)",
+  "date": "(2026/10/24時点)",
+  "short": "エジソンママ フォーク&スプーン プチ",
+  "chips": [
+   "1歳頃〜",
+   "ステンレス",
+   "カバー付",
+   "小さめ"
+  ],
+  "reviews": 111
+ },
+ "EDISON-FS-STD": {
+  "id": "58c77915.4e47ee0f.58c77916.47c71f05",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fe-edison%2F23new-fs%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58c77915.4e47ee0f.58c77916.47c71f05/?me_id=1349621&item_id=10000898&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fe-edison%2Fcabinet%2Fother%2Ffs100%2F4color.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "EDISONmama エジソンママ【日本製】フォークスプーンセット 燕三条の高品質ステンレス製 子ども用フォークスプーン",
+  "price": "価格：850円（税込、送料無料)",
+  "date": "(2026/10/24時点)",
+  "short": "エジソンママ フォーク&スプーン(1.5歳〜)",
+  "chips": [
+   "1.5歳頃〜",
+   "日本製ステンレス",
+   "麺がすべりにくい溝"
+  ],
+  "reviews": 87
  }
 }
