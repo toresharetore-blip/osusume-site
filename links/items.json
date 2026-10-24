@@ -1542,5 +1542,35 @@
    "1560g"
   ],
   "reviews": 143
+ },
+ "MORINAGA-HAGUKUMI800-SD": {
+  "id": "58c76550.aab19d56.58c76551.1976cef0",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fsundrug%2F4902720109116%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58c76550.aab19d56.58c76551.1976cef0/?me_id=1254471&item_id=10054757&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fsundrug%2Fcabinet%2F202512_10%2F4902720109116.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "◆森永はぐくみ 大缶 800g",
+  "price": "価格：2,580円（税込、送料別)",
+  "date": "(2026/10/24時点)",
+  "short": "森永 はぐくみ 大缶 800g(サンドラッグ)",
+  "chips": [
+   "牛乳たんぱく質の一部をペプチドに",
+   "0か月〜1歳頃",
+   "800g"
+  ],
+  "reviews": 4
+ },
+ "MORINAGA-EBABY800-SD": {
+  "id": "58c76550.aab19d56.58c76551.1976cef0",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fsundrug%2F4902720109185%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58c76550.aab19d56.58c76551.1976cef0/?me_id=1254471&item_id=10048383&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fsundrug%2Fcabinet%2F202512_10%2F4902720109185.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "◆森永乳業 E赤ちゃん 大缶 800g",
+  "price": "価格：3,740円（税込、送料別)",
+  "date": "(2026/10/24時点)",
+  "short": "森永 E赤ちゃん 大缶 800g(サンドラッグ)",
+  "chips": [
+   "牛乳たんぱく質を全てペプチドに",
+   "新生児期におすすめ(森永)",
+   "800g"
+  ],
+  "reviews": 23
  }
 }
