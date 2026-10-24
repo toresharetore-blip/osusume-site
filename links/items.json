@@ -1588,5 +1588,35 @@
    "セール中"
   ],
   "reviews": 51
+ },
+ "HOHOEMI-CASE8": {
+  "id": "5846c80f.ccba5558.5846c810.d7f6889a",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fnetbaby%2F4902705129573%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c80f.ccba5558.5846c810.d7f6889a/?me_id=1212232&item_id=10051930&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fnetbaby%2Fcabinet%2F573%2F4902705129573.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "明治ほほえみ(780g×8缶)【明治ほほえみ】",
+  "price": "価格：23,440円（税込、送料別)",
+  "date": "(2026/10/24時点)",
+  "short": "明治ほほえみ 780g×8缶",
+  "chips": [
+   "0〜1歳頃",
+   "母乳の代わりのミルク",
+   "1g約3.8円"
+  ],
+  "reviews": 87
+ },
+ "MEIJI-STEP-CASE8": {
+  "id": "5846c80f.ccba5558.5846c810.d7f6889a",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fnetbaby%2F4902705129665%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c80f.ccba5558.5846c810.d7f6889a/?me_id=1212232&item_id=10053097&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fnetbaby%2Fcabinet%2F665%2F4902705129665.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "明治ステップ ケース(780g×8缶入)【明治ステップ】",
+  "price": "価格：19,500円（税込、送料別)",
+  "date": "(2026/10/24時点)",
+  "short": "明治ステップ 780g×8缶",
+  "chips": [
+   "1〜3歳",
+   "鉄・カルシウムをサポート",
+   "1g約3.1円"
+  ],
+  "reviews": 0
  }
 }
