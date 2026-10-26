@@ -1807,5 +1807,35 @@
    "公式店"
   ],
   "reviews": 1
+ },
+ "JOKINJOZU-RANGE": {
+  "id": "5846c80f.ccba5558.5846c810.d7f6889a",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fnetbaby%2Fa62893xxx%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c80f.ccba5558.5846c810.d7f6889a/?me_id=1212232&item_id=10023315&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fnetbaby%2Fcabinet%2F297%2F402297.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "Combi 除菌じょーず ベビー食器用 ギフト(1個)【コンビ】[哺乳瓶 哺乳ビン お食事グッズ]",
+  "price": "価格：2,458円（税込、送料無料)",
+  "date": "(2026/10/24時点)",
+  "short": "コンビ 除菌じょーず(電子レンジ用)",
+  "chips": [
+   "水60mlでレンジ5分",
+   "哺乳びん3本まで",
+   "保管ケースになる"
+  ],
+  "reviews": 160
+ },
+ "JOKINJOZU-STEAM": {
+  "id": "5846c80f.ccba5558.5846c810.d7f6889a",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fnetbaby%2F4972990197762%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5846c80f.ccba5558.5846c810.d7f6889a/?me_id=1212232&item_id=10055674&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fnetbaby%2Fcabinet%2F762%2F4972990197762.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "コンビ スチーム除菌・乾燥器 除菌じょ〜ず(WH(1個)【コンビ】",
+  "price": "価格：14,800円（税込、送料別)",
+  "date": "(2026/10/24時点)",
+  "short": "コンビ スチーム除菌・乾燥器 除菌じょーず",
+  "chips": [
+   "4本を約10分で除菌",
+   "乾燥まで自動",
+   "ミルクウォーマー付き"
+  ],
+  "reviews": 0
  }
 }
