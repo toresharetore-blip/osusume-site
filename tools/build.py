@@ -422,6 +422,28 @@ FILTER_JS = """<script>
 </script>"""
 
 
+def tag_ranking(order, counts, n=5):
+    """よく見られているカテゴリー(Search Consoleの表示回数をカテゴリーごとに合計した順)"""
+    f = ROOT / "links/gsc_pages.json"
+    if not f.exists():
+        return ""
+    g = json.loads(f.read_text(encoding="utf-8"))
+    tag_of = {s_: m["tag"] for s_, m in order}
+    imp, clk = {}, {}
+    for s_, (i, c) in g["pages"].items():
+        t = tag_of.get(s_)
+        if t:
+            imp[t] = imp.get(t, 0) + i
+            clk[t] = clk.get(t, 0) + c
+    rank = sorted(imp, key=lambda t: (-imp[t], -clk[t]))[:n]
+    if not rank:
+        return ""
+    lis = "".join(f'<li><a href="{cat_url(t)}"><span class="rk">{i}</span><span class="ic">{ICONS.get(t, "")}</span>'
+                  f'<span class="nm">{t}</span><span class="ct">{counts.get(t, 0)}本</span></a></li>' for i, t in enumerate(rank, 1))
+    return (f'<div class="tagrank"><p class="tr-title">よく見られているカテゴリー</p><ol>{lis}</ol>'
+            f'<p class="tr-note">Googleの検索で表示された回数(過去28日)の多い順</p></div>')
+
+
 def write_index_and_sitemap(order):
     counts = {}
     for _, m in order:
@@ -441,12 +463,12 @@ def write_index_and_sitemap(order):
     cards_latest = "\n".join(card_li(s_, m) for s_, m in latest[:4])
     cards_pop = "\n".join(card_li(s_, m) for s_, m in popular)
     cards = "\n".join(card_li(s_, m) for s_, m in latest)
-    chips_html = "".join(f'<a href="{cat_url(c)}">{c}</a>' for c in CATS)
+    chips_html = tag_ranking(order, counts)
     body = (f'<section class="hero hero-top"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
             f'<p class="eyebrow">型番比較サイト</p>\n'
             f'<h1>買う前に、型番の違いを<span class="hl">同じ表</span>でくらべる</h1>\n'
             f'<p class="lead2">ベビー用品から家電まで、幅広い商品の<strong>型番の違い</strong>を、メーカーが公表している仕様と価格で並べて比べます。どれを選ぶかの目安も書いています。数字には出典を付けています。</p>'
-            f'<div class="chips">{chips_html}</div>'
+            f'{chips_html}'
             f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
             f'<h2 class="sec-title">最新の記事</h2>\n<ul class="cards">\n{cards_latest}\n</ul>\n'
             f'<h2 class="sec-title">人気の記事</h2>\n<p class="sec-note">楽天市場でレビューが多い(よく売れている)商品をあつかった記事です。</p>\n<ul class="cards">\n{cards_pop}\n</ul>\n'

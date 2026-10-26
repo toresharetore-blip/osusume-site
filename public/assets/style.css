@@ -446,3 +446,20 @@ article h2::before{content:counter(sec,decimal-leading-zero);font-size:13px;font
 .pricebox .pgo{flex:none;font-size:12.5px;font-weight:800;color:#fff;background:#BF0000;border-radius:99px;padding:8px 12px;white-space:nowrap}
 .pricebox .pnote{margin:4px 0 0;font-size:11px;color:var(--ink3)}
 @media (max-width:480px){.pricebox .pgo{padding:7px 10px;font-size:12px}}
+/* よく見られているカテゴリー(トップ) */
+.tagrank{margin:18px 0 6px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.tagrank .tr-title{margin:0 0 6px;font-size:14px;font-weight:800;color:var(--navy)}
+.tagrank ol{list-style:none;margin:0;padding:0}
+.tagrank li{margin:0;border-top:1px solid var(--line)}
+.tagrank li:first-child{border-top:0}
+.tagrank a{display:flex;align-items:center;gap:10px;padding:9px 2px;text-decoration:none;color:var(--ink,#1f2937)}
+.tagrank .rk{flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;background:var(--bg);color:var(--navy)}
+.tagrank li:nth-child(1) .rk{background:#E8B931;color:#fff}
+.tagrank li:nth-child(2) .rk{background:#A7B1BC;color:#fff}
+.tagrank li:nth-child(3) .rk{background:#C98B55;color:#fff}
+.tagrank .ic{flex:0 0 22px;display:grid;place-items:center}
+.tagrank .ic svg{width:22px;height:22px}
+.tagrank .nm{flex:1;font-weight:700;font-size:15px}
+.tagrank .ct{font-size:12px;color:#6b7280}
+.tagrank a:hover .nm{text-decoration:underline}
+.tagrank .tr-note{margin:6px 0 0;font-size:11px;color:#6b7280}
