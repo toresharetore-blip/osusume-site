@@ -1976,5 +1976,53 @@
    "16.0kg"
   ],
   "reviews": 0
+ },
+ "BBOX-SIPPY": {
+  "id": "58e11fe2.237721e7.58e11fe3.abca5d71",
+  "date": "(2026/10/27時点)",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fconiconi%2F10000096%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58e11fe2.237721e7.58e11fe3.abca5d71/?me_id=1403144&item_id=10000210&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fconiconi%2Fcabinet%2F08474930%2F20251225012741.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "【正規販売店】b.box ビーボックス シッピーカップ 漏れない ストローマグ 240ml 正規品 6ヶ月から 赤ちゃん用コップ トレーニングマグ ベビーカップ 重り付きストロー 出産祝い プレゼント ギフトラッピング 食洗機対応 BPAフリー 可愛い おしゃれ ジェラートカラー 本体",
+  "price": "価格：2,640円～（税込、送料無料)",
+  "short": "b.box シッピーカップ(ストローマグ)",
+  "chips": [
+   "6か月〜",
+   "おもり付きストロー",
+   "240ml",
+   "食洗機OK"
+  ],
+  "reviews": 341
+ },
+ "BBOX-SIPPY-PPSU": {
+  "id": "58e11fe2.237721e7.58e11fe3.abca5d71",
+  "date": "(2026/10/27時点)",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fconiconi%2F10000096ppsu%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58e11fe2.237721e7.58e11fe3.abca5d71/?me_id=1403144&item_id=10000541&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fconiconi%2Fcabinet%2Fimgrc0117774802.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "【正規販売店】New PPSU製 シッピーカップ b.box ビーボックス シッピーカップ 漏れない ストローマグ 240ml 6ヶ月から 赤ちゃん用コップ トレーニングマグ ベビーカップ 重り付きストロー 出産祝い 電子レンジ消毒可 食洗機対応 BPAフリー 可愛い おしゃれ 本体",
+  "price": "価格：4,290円～（税込、送料無料)",
+  "short": "b.box PPSU製シッピーカップ",
+  "chips": [
+   "6か月〜",
+   "PPSU(琥珀色)",
+   "レンジ消毒可(本体・ストロー)",
+   "110g"
+  ],
+  "reviews": 10
+ },
+ "BBOX-STEPUP": {
+  "id": "58e11fe2.237721e7.58e11fe3.abca5d71",
+  "date": "(2026/10/27時点)",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fconiconi%2F10000104%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58e11fe2.237721e7.58e11fe3.abca5d71/?me_id=1403144&item_id=10000226&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fconiconi%2Fcabinet%2Fimgrc0105485217.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "【出産祝いラッピング のし対応無料対応】ビーボックス bbox 4WAYマグ ステップアップマグセット ギフトBOX入 240ml 食洗機可 漏れにくい ストローマグ シッピーカップ ディズニー くすみ 哺乳びん コップ飲み スパウトマグ 離乳食 てぃ先生 b.box ギフト マグマグ 練習",
+  "price": "価格：5,280円～（税込、送料無料)",
+  "short": "b.box ステップアップマグパック",
+  "chips": [
+   "3か月〜",
+   "飲み口4種",
+   "ストロー・コップ練習",
+   "ギフト向き"
+  ],
+  "reviews": 137
  }
 }
