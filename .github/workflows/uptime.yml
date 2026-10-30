@@ -1,12 +1,12 @@
-# サイトの稼働監視(15分ごと)。結果は uptime ブランチの uptime.csv に追記する
-# (main には書かないので、サイトの公開・デプロイは発生しない)
+# サイトの稼働監視(15分ごと)。各回の成功/失敗(Actionsの実行履歴)がそのまま記録になる。
+# 集計: python3 tools/uptime_report.py [日数](GitHub APIから実行履歴を読む。書き込み権限は不要)
 name: uptime
 on:
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: uptime
   cancel-in-progress: false
@@ -31,28 +31,6 @@ jobs:
           done
           echo "line=$(date -u +%Y-%m-%dT%H:%MZ),$ok,${codes# },$slow" >> "$GITHUB_OUTPUT"
           echo "ok=$ok" >> "$GITHUB_OUTPUT"
-      - name: Record
-        env:
-          LINE: ${{ steps.chk.outputs.line }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git init -q log && cd log
-          git config user.name "uptime-bot"
-          git config user.email "uptime-bot@users.noreply.github.com"
-          git remote add origin "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          if git fetch -q --depth 1 origin uptime; then
-            git checkout -q -b uptime FETCH_HEAD
-          else
-            git checkout -q --orphan uptime
-            echo "time_utc,ok,status_codes,slowest_ms" > uptime.csv
-          fi
-          echo "$LINE" >> uptime.csv
-          git add uptime.csv
-          git commit -q -m "uptime $LINE"
-          for i in 1 2 3; do
-            git push -q origin uptime && break
-            git fetch -q --depth 1 origin uptime && git rebase -q FETCH_HEAD || true
-          done
       - name: Fail if down
         if: steps.chk.outputs.ok != '1'
         run: |
