@@ -2615,5 +2615,37 @@
    "据え置き型"
   ],
   "reviews": 341
+ },
+ "BABYBJORN-MINI": {
+  "id": "5894c1ca.edd401be.5894c1cb.9a77fe0c",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabybjorn%2Fbaby-carrier-mini-3d%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5894c1ca.edd401be.5894c1cb.9a77fe0c/?me_id=1406218&item_id=10000007&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_gold%2Fbabybjorn%2Fbb-gallery%2Fbabycarrier-mini_thumb_01_20261027.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "【公式】《カラー限定SALE》 新生児特化 楽天1位ベビービョルン ベビーキャリア MINI 新生児から使える 帝王切開〈10年保証・SG認証〉メッシュ ジャージ 対面抱っこ 前向き抱っこ",
+  "price": "価格：9,680円～（税込、送料無料)",
+  "date": "(2026/10/30時点)",
+  "short": "ベビービョルン ベビーキャリア MINI",
+  "chips": [
+   "新生児〜12か月",
+   "約500g",
+   "セパレート構造",
+   "公式店"
+  ],
+  "reviews": 1070
+ },
+ "BABYBJORN-MOVE": {
+  "id": "5894c1ca.edd401be.5894c1cb.9a77fe0c",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabybjorn%2Fbabycarrier-move%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/5894c1ca.edd401be.5894c1cb.9a77fe0c/?me_id=1406218&item_id=10000012&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_gold%2Fbabybjorn%2Fbb-gallery%2Fbaby-carrier-move-sale_01-3.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "【公式】《SALE》ベビービョルン ベビーキャリア MOVE メッシュ 腰に優しいバックサポート〈10年保証・SG認証〉 抱っこ紐 対面抱っこ・前向き抱っこ 抱っこひも フルメッシュ 出産祝い",
+  "price": "価格：17,600円（税込、送料別)",
+  "date": "(2026/10/30時点)",
+  "short": "ベビービョルン ベビーキャリア MOVE",
+  "chips": [
+   "新生児〜15か月",
+   "ウエストベルト",
+   "フル3Dメッシュ",
+   "公式店"
+  ],
+  "reviews": 20
  }
 }
