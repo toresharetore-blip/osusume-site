@@ -2828,5 +2828,35 @@
    "体重19kgまで"
   ],
   "reviews": 0
+ },
+ "APRICA-AIRCARRY-AC": {
+  "id": "58e113b3.5df8274b.58e113b4.5272ac91",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabymachi%2Fcap-1583gr%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58e113b3.5df8274b.58e113b4.5272ac91/?me_id=1220491&item_id=10013125&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabymachi%2Fcabinet%2F500%2F500%2Fcap1616_bk_pre2_xxx.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "チャイルドシート アップリカ エアキャリーAC[ブラックBK]",
+  "price": "価格：40,700円（税込、送料無料)",
+  "date": "(2026/11/1時点)",
+  "short": "アップリカ エアキャリー AC",
+  "chips": [
+   "15か月頃まで",
+   "3.0kg",
+   "ベビーカーにもつながる"
+  ],
+  "reviews": 8
+ },
+ "APRICA-TS-BASE": {
+  "id": "58e113b3.5df8274b.58e113b4.5272ac91",
+  "pc": "https%3A%2F%2Fitem.rakuten.co.jp%2Fbabymachi%2Fcap-1553bk%2F",
+  "img": "https://hbb.afl.rakuten.co.jp/hgb/58e113b3.5df8274b.58e113b4.5272ac91/?me_id=1220491&item_id=10012748&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbabymachi%2Fcabinet%2F500%2Fcap1553_bk_xxx.jpg%3F_ex%3D240x240&s=240x240&t=picttext",
+  "name": "アップリカ トラベルシステム ベース[ブラックBK] ISOFIX取付",
+  "price": "価格：26,400円（税込、送料無料)",
+  "date": "(2026/11/1時点)",
+  "short": "アップリカ トラベルシステム ベース",
+  "chips": [
+   "ISOFIX固定",
+   "回転式",
+   "エアキャリー用"
+  ],
+  "reviews": 10
  }
 }
