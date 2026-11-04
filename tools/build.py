@@ -42,7 +42,7 @@ def cat_url(tag):
     return f"/category/{CATS.get(tag, 'other')}.html"
 
 
-def head(title, description, canonical, og_image=None, jsonld=None):
+def head(title, description, canonical, og_image=None, jsonld=None, noindex=False):
     catnav = "".join(f'<div class="grp"><p>{g}</p>' + "".join(f'<a href="{cat_url(c)}">{c}</a>' for c in cs) + '</div>' for g, cs in GROUPS)
     return f"""<!doctype html>
 <html lang="ja">
@@ -52,6 +52,7 @@ def head(title, description, canonical, og_image=None, jsonld=None):
 <meta name="color-scheme" content="light">
 <title>{title}</title>
 <meta name="description" content="{description}">
+{'<meta name="robots" content="noindex,follow">' if noindex else ""}
 <link rel="canonical" href="{BASE}/{canonical}">
 <meta property="og:type" content="{"article" if og_image else "website"}">
 <meta property="og:site_name" content="{SITE}">
@@ -285,8 +286,9 @@ def article(slug, meta, body, all_meta):
               '数値には出典を付け、実際に使って試していない商品はその旨を明記しています。'
               '<a href="/about.html">運営方針を見る</a></p></div>')
     # 関連記事(同じカテゴリーを優先、足りなければ他から)
-    same = [(s_, m) for s_, m in all_meta if s_ != slug and m["tag"] == meta["tag"]]
-    other = [(s_, m) for s_, m in all_meta if s_ != slug and m["tag"] != meta["tag"]]
+    pool = all_meta if meta.get("noindex") else [(s_, m) for s_, m in all_meta if not m.get("noindex")]
+    same = [(s_, m) for s_, m in pool if s_ != slug and m["tag"] == meta["tag"]]
+    other = [(s_, m) for s_, m in pool if s_ != slug and m["tag"] != meta["tag"]]
     rel = (same + other)[:4]
     related = ('<section class="related"><h2 class="sec-title">あわせて読みたい</h2><ul class="cards">' +
                "".join(card_li(s_, m) for s_, m in rel) + "</ul></section>") if rel else ""
@@ -321,8 +323,20 @@ def article(slug, meta, body, all_meta):
             {"@type": "Question", "name": re.sub("<[^>]+>", "", x["q"]),
              "acceptedAnswer": {"@type": "Answer", "text": re.sub("<[^>]+>", "", x["a"])}} for x in faq]})
     jsonld = json.dumps(jsonld_obj, ensure_ascii=False)
-    return (head(f'{meta["title"]} | {SITE}', meta["description"], f"{slug}.html", og, jsonld)
+    html = (head(f'{meta["title"]} | {SITE}', meta["description"], f"{slug}.html", og, jsonld, bool(meta.get("noindex")))
             + top + (body.replace('<h2 id="s' + str(len(heads)) + '">出典', alsobuy + '<h2 id="s' + str(len(heads)) + '">出典', 1) if alsobuy and ('<h2 id="s' + str(len(heads)) + '">出典') in body else body + alsobuy) + writer + "\n</article>" + related + FOOT)
+    return html if meta.get("noindex") else strip_noidx_links(html)
+
+
+NOIDX = set()
+
+
+def strip_noidx_links(html):
+    """インデックス対象ページから、noindex記事へのリンクを外す(文字は残す)。"""
+    if not NOIDX:
+        return html
+    pat = re.compile(r'<a\b[^>]*href="/(' + "|".join(map(re.escape, sorted(NOIDX))) + r')(?:\.html)?(?:#[^"]*)?"[^>]*>(.*?)</a>', re.S)
+    return pat.sub(lambda m: m.group(2), html)
 
 
 def _pubtime(f):
@@ -353,6 +367,7 @@ def build_all():
         for k in re.findall(r"\{\{CARD:([^}]+)\}\}", body):
             ITEM_HOME.setdefault(k, (m["tag"], s_))
     order = sorted([(s_, m) for s_, m, _ in loaded], key=lambda x: (x[0] != "kashitsuki-denkidai", x[1].get("order", 50), x[0]))
+    NOIDX.clear(); NOIDX.update(s_ for s_, m in order if m.get("noindex"))
     for s_, m, body in loaded:
         (ROOT / "public" / f"{s_}.html").write_text(article(s_, m, body, order), encoding="utf-8")
     for f in sorted((ROOT / "pages").glob("*.html")):
@@ -444,7 +459,12 @@ def tag_ranking(order, counts, n=5):
             f'<p class="tr-note">Googleの検索で表示された回数(過去28日)の多い順</p></div>')
 
 
-def write_index_and_sitemap(order):
+def write_index_and_sitemap(order_all):
+    order = [x for x in order_all if not x[1].get("noindex")]
+    kept_n = {}
+    for _, m in order:
+        kept_n[m["tag"]] = kept_n.get(m["tag"], 0) + 1
+    idx_tags = {t for t, n in kept_n.items() if n >= 2}
     counts = {}
     for _, m in order:
         counts[m["tag"]] = counts.get(m["tag"], 0) + 1
@@ -467,20 +487,21 @@ def write_index_and_sitemap(order):
     body = (f'<section class="hero hero-top"><p class="pr-note">PR 当サイトの記事には広告(楽天アフィリエイト)のリンクが含まれます</p>\n'
             f'<p class="eyebrow">型番比較サイト</p>\n'
             f'<h1>買う前に、型番の違いを<span class="hl">同じ表</span>でくらべる</h1>\n'
-            f'<p class="lead2">ベビー用品から家電まで、幅広い商品の<strong>型番の違い</strong>を、メーカーが公表している仕様と価格で並べて比べます。どれを選ぶかの目安も書いています。数字には出典を付けています。</p>'
+            f'<p class="lead2">ベビー・子育て用品の<strong>型番の違い</strong>を、メーカーが公表している仕様と価格で並べて比べます。どれを選ぶかの目安も書いています。数字には出典を付けています。</p>'
             f'{chips_html}'
             f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
             f'<h2 class="sec-title">最新の記事</h2>\n<ul class="cards">\n{cards_latest}\n</ul>\n'
             f'<h2 class="sec-title">人気の記事</h2>\n<p class="sec-note">楽天市場でレビューが多い(よく売れている)商品をあつかった記事です。</p>\n<ul class="cards">\n{cards_pop}\n</ul>\n'
-            f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>' + FILTER_JS)
+            f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>'
+            f'<p class="sec-note"><a href="/archive.html">過去の比較記事の一覧</a>もあります。</p>' + FILTER_JS)
     site_ld = json.dumps({"@context": "https://schema.org", "@graph": [
         {"@type": "WebSite", "name": SITE, "url": BASE + "/", "inLanguage": "ja", "description": TAGLINE,
          "potentialAction": {"@type": "SearchAction", "target": BASE + "/search?q={search_term_string}", "query-input": "required name=search_term_string"}},
         {"@type": "Organization", "name": SITE + "編集部", "url": BASE + "/about"}]}, ensure_ascii=False)
-    (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "ベビー用品・家電など幅広い商品の型番の違いを、メーカー公表の仕様と価格を同じ表に並べて比べるサイトです。選び方の目安と出典つき。", "", None, site_ld) + body + FOOT, encoding="utf-8")
+    (ROOT / "public/index.html").write_text(head(SITE + "｜" + TAGLINE, "ベビー・子育て用品の型番の違いを、メーカー公表の仕様と価格を同じ表に並べて比べるサイトです。選び方の目安と出典つき。", "", None, site_ld) + body + FOOT, encoding="utf-8")
     # サイト内検索
     idx = [{"u": f"/{s_}.html", "t": m.get("short", m["title"]), "h": m["title"], "d": m["description"], "c": m["tag"],
-            "i": thumb_url(items[m["thumb"]], 128) if m.get("thumb") else "", "p": m["_pub"]} for s_, m in order]
+            "i": thumb_url(items[m["thumb"]], 128) if m.get("thumb") else "", "p": m["_pub"]} for s_, m in order_all]
     (ROOT / "public/search-index.json").write_text(json.dumps(idx, ensure_ascii=False), encoding="utf-8")
     sb = ('<section class="hero"><p class="crumb"><a href="/">トップ</a> ＞ サイト内検索</p><h1>サイト内検索</h1>'
           '<form class="sbox big" action="/search.html" method="get" role="search"><input type="search" name="q" id="q" placeholder="例:オムニクラシック、クルムーヴ、ベビーカー" aria-label="サイト内検索"><button type="submit">検索</button></form>'
@@ -489,13 +510,20 @@ def write_index_and_sitemap(order):
     # カテゴリーページ
     (ROOT / "public/category").mkdir(exist_ok=True)
     for c, slug in CATS.items():
-        lst = sorted([(s_, m) for s_, m in order if m["tag"] == c], key=lambda x: -x[1]["_pub"])
+        src = order if c in idx_tags else order_all
+        lst = sorted([(s_, m) for s_, m in src if m["tag"] == c], key=lambda x: -x[1]["_pub"])
         cards_c = "\n".join(card_li(s_, m) for s_, m in lst)
+        more = '<p class="sec-note"><a href="/archive.html">過去の比較記事の一覧</a>もあります。</p>' if c in idx_tags else ""
         b = (f'<section class="hero"><p class="crumb"><a href="/">トップ</a> ＞ {c}</p><h1>{ICONS.get(c, "")} {c}の比較記事</h1>'
              f'<p>{c}の型番ごとの違いを、メーカーと販売店の公表値で比べた記事です。全{len(lst)}本。</p></section>\n'
-             f'<ul class="cards" id="list">\n{cards_c}\n</ul>')
+             f'<ul class="cards" id="list">\n{cards_c}\n</ul>{more}')
         (ROOT / "public/category" / f"{slug}.html").write_text(
-            head(f"{c}の比較記事一覧 | {SITE}", f"{c}の型番の違いを公表値で比べた記事の一覧です。", f"category/{slug}.html") + b + FOOT, encoding="utf-8")
+            head(f"{c}の比較記事一覧 | {SITE}", f"{c}の型番の違いを公表値で比べた記事の一覧です。", f"category/{slug}.html", noindex=c not in idx_tags) + b + FOOT, encoding="utf-8")
+    arc = sorted(order_all, key=lambda x: (x[1]["tag"], -x[1]["_pub"]))
+    ab = ('<section class="hero"><p class="crumb"><a href="/">トップ</a> ＞ 過去の比較記事</p><h1>過去の比較記事の一覧</h1>'
+          f'<p>これまでに公開した比較記事の一覧です。全{len(arc)}本。価格は各記事の確認日時点のものです。</p></section>\n'
+          '<ul class="cards">\n' + "\n".join(card_li(s_, m) for s_, m in arc) + '\n</ul>')
+    (ROOT / "public/archive.html").write_text(head(f"過去の比較記事の一覧 | {SITE}", "くらべてえらぶで公開した比較記事の一覧です。", "archive.html", noindex=True) + ab + FOOT, encoding="utf-8")
     mod = {f"{s_}.html": _iso(m.get("updated") or m["date"]) for s_, m in order}
     allmax = max(mod.values())
     for c, slug in CATS.items():
@@ -503,7 +531,8 @@ def write_index_and_sitemap(order):
         mod[f"category/{slug}.html"] = max(ds) if ds else allmax
     mod[""] = allmax
     mod["about.html"] = mod["privacy.html"] = "2026-10-08"
-    urls = [""] + [f"category/{v}.html" for v in CATS.values()] + [f"{s_}.html" for s_, _ in order] + ["about.html", "privacy.html"]
+    idx_cats = [v for c, v in CATS.items() if c in idx_tags]
+    urls = [""] + [f"category/{v}.html" for v in idx_cats] + [f"{s_}.html" for s_, m in order if not m.get("noindex")] + ["about.html", "privacy.html"]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sm += "".join(f"<url><loc>{BASE}/{u}</loc><lastmod>{mod[u]}</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (ROOT / "public/sitemap.xml").write_text(sm, encoding="utf-8")
@@ -511,7 +540,7 @@ def write_index_and_sitemap(order):
           "各記事の冒頭に結論、本文に出典、価格には確認日を載せています。商品リンクは楽天アフィリエイトで、記事内にPR表記があります。", ""]
     for g, cs in GROUPS:
         for c in cs:
-            lst = [(s_, m) for s_, m in order if m["tag"] == c]
+            lst = [(s_, m) for s_, m in order if m["tag"] == c and not m.get("noindex")]
             if lst:
                 ll += [f"## {c}", ""]
                 for s_, m in lst:
