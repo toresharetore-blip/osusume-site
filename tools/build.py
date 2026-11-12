@@ -28,10 +28,10 @@ BASE = "https://osusume-site.toresharetore.workers.dev"
 items = json.loads((ROOT / "links/items.json").read_text(encoding="utf-8"))
 
 
-CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier", "ベビーカー": "stroller", "ベビーラック": "babyrack", "マグ・食器": "mug", "おむつ": "omutsu", "授乳・哺乳びん": "feeding", "トイレトレーニング": "toilet", "おふろ": "bath", "おくるみ・スリーパー": "swaddle", "鼻水吸引器": "hanamizu", "ベビーチェア": "babychair"}
+CATS = {"加湿器": "kashitsuki", "ふとん乾燥機": "futon-kansouki", "ドライヤー": "dryer", "衣類スチーマー": "steamer", "チャイルドシート": "childseat", "抱っこひも": "carrier", "ベビーカー": "stroller", "ベビーラック": "babyrack", "マグ・食器": "mug", "おむつ": "omutsu", "授乳・哺乳びん": "feeding", "トイレトレーニング": "toilet", "おふろ": "bath", "おくるみ・スリーパー": "swaddle", "鼻水吸引器": "hanamizu", "ベビーチェア": "babychair", "早見表・まとめ": "matome"}
 
 
-GROUPS = [("ベビー・キッズ", ["チャイルドシート", "ベビーカー", "抱っこひも", "ベビーラック", "マグ・食器", "おむつ", "授乳・哺乳びん", "トイレトレーニング", "おふろ", "おくるみ・スリーパー", "鼻水吸引器", "ベビーチェア"]),
+GROUPS = [("ベビー・キッズ", ["早見表・まとめ", "チャイルドシート", "ベビーカー", "抱っこひも", "ベビーラック", "マグ・食器", "おむつ", "授乳・哺乳びん", "トイレトレーニング", "おふろ", "おくるみ・スリーパー", "鼻水吸引器", "ベビーチェア"]),
           ("家電", ["加湿器", "ふとん乾燥機", "ドライヤー", "衣類スチーマー"])]
 for _c in CATS:
     if not any(_c in g for _, g in GROUPS):
@@ -489,7 +489,8 @@ def write_index_and_sitemap(order_all):
             f'<h1>買う前に、型番の違いを<span class="hl">同じ表</span>でくらべる</h1>\n'
             f'<p class="lead2">ベビー・子育て用品の<strong>型番の違い</strong>を、メーカーが公表している仕様と価格で並べて比べます。どれを選ぶかの目安も書いています。数字には出典を付けています。</p>'
             f'{chips_html}'
-            f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n'
+            f'<div class="stats"><div><b>{len(order)}本</b>比較記事</div><div><b>全記事</b>出典つき</div><div><b>毎回</b>価格の確認日を表示</div></div></section>\n' +
+            (f'<h2 class="sec-title">月齢でさがす</h2>\n<ul class="cards">\n' + "\n".join(card_li(s_, m) for s_, m in order if m.get("hub")) + '\n</ul>\n' if any(m.get("hub") for _, m in order) else '') +
             f'<h2 class="sec-title">最新の記事</h2>\n<ul class="cards">\n{cards_latest}\n</ul>\n'
             f'<h2 class="sec-title">人気の記事</h2>\n<p class="sec-note">楽天市場でレビューが多い(よく売れている)商品をあつかった記事です。</p>\n<ul class="cards">\n{cards_pop}\n</ul>\n'
             f'<h2 class="sec-title" id="list-title">記事一覧</h2>\n{tabs}\n<ul class="cards" id="list">\n{cards}\n</ul>'
